@@ -258,7 +258,7 @@
           isNavigating = false;
           window.location.href = url; // Fallback
         });
-    }, 750);
+    }, 600);
   }
 
   // Intercept internal links

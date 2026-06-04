@@ -110,7 +110,7 @@
           requestAnimationFrame(function() {
             container.classList.remove("is-switching");
           });
-        }, 750);
+        }, 600);
       }
       buttons.forEach(function(b){ b.addEventListener("click", function(){ show(b.dataset.mode); }); });
       var hash = (location.hash || "").replace("#","");
