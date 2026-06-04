@@ -219,6 +219,12 @@
 
           if (url.indexOf('#') === -1) {
             window.scrollTo(0, 0);
+          } else {
+            var hash = url.split('#')[1];
+            setTimeout(function() {
+              var el = document.getElementById(hash);
+              if (el) el.scrollIntoView();
+            }, 0);
           }
 
           isNavigating = false;
@@ -272,7 +278,10 @@
 
   // Handle back/forward
   window.addEventListener('popstate', function() {
-    var path = location.pathname.split("/").pop() || "index.html";
-    navigate(path, false);
+    var url = location.pathname.split("/").pop() || "index.html";
+    if (location.search || location.hash) {
+      url += location.search + location.hash;
+    }
+    navigate(url, false);
   });
 })();
