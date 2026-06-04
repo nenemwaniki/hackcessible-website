@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Hackcessible · Cohort 2026</title>
+  <meta name="description" content="Sponsor Cohort 2027 or apply to bring the Hackcessible model to your school. One contact route for both." />
+  <script>(function(){try{var t=localStorage.getItem('hk-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body id="top">
+  <div id="site-nav"></div>
+
+  <main id="main">
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="title">Two ways in. One inbox.</h2>
+          <p class="lead">Whether you want to fund the next cohort or bring this model to your own school, you're in the right place. Pick the route that fits.</p>
+        </div>
+
+        <div class="contact-switch" role="group" aria-label="Choose how you'd like to get in touch">
+          <button data-mode="sponsor" aria-pressed="true">Sponsor</button>
+          <button data-mode="apply" aria-pressed="false">Apply</button>
+        </div>
+
+        <!-- SPONSOR -->
+        <div class="contact-grid" id="sponsor">
+          <article class="contact-panel dark">
+            <h3>Fund the next cohort.</h3>
+            <p>One cohort costs about USD 38,000 — stipends for students, hardware, clinical mentorship, challenger-family compensation, and a full open-source writeup.</p>
+            <div class="contact-meta">
+              <div class="row"><div><strong>cime@aku.edu</strong><span>Sponsorship &amp; partnerships</span></div></div>
+              <div class="row"><div><strong>CIME · Aga Khan University</strong><span>Nairobi, Kenya</span></div></div>
+              <div class="row"><div><strong>What you fund</strong><span>Stipends · hardware · clinical mentorship · family compensation · open-source writeup</span></div></div>
+            </div>
+            <div style="margin-top:22px"><a class="btn lime" href="mailto:cime@aku.edu?subject=Sponsor%20Hackcessible%20Cohort%202027">Email to sponsor</a></div>
+          </article>
+          <form class="contact-panel" onsubmit="return hkSubmit(event,'sponsor')">
+            <div class="field"><label for="s-org">Organisation</label><input id="s-org" name="org" type="text" required placeholder="Your organisation" /></div>
+            <div class="field"><label for="s-name">Contact name</label><input id="s-name" name="name" type="text" required placeholder="Full name" /></div>
+            <div class="field"><label for="s-email">Email</label><input id="s-email" name="email" type="email" required placeholder="you@org.org" /></div>
+            <div class="field"><label for="s-amount">Indicative support</label>
+              <select id="s-amount" name="amount">
+                <option>A full cohort (~USD 38,000)</option>
+                <option>Partial — hardware &amp; materials</option>
+                <option>Partial — student stipends</option>
+                <option>In-kind / mentorship</option>
+                <option>Still exploring</option>
+              </select>
+            </div>
+            <div class="field"><label for="s-msg">Anything else</label><textarea id="s-msg" name="message" placeholder="Tell us how you'd like to help."></textarea></div>
+            <button class="btn" type="submit">Send sponsorship enquiry</button>
+          </form>
+        </div>
+
+        <!-- APPLY -->
+        <div class="contact-grid" id="apply" hidden>
+          <article class="contact-panel dark">
+            <h3>Cohort 2027 applications open July.</h3>
+            <p>For final-year medical students, biomedical engineering students, and peer-institution teams who want to bring this model to their school.</p>
+            <div class="contact-meta">
+              <div class="row"><div><strong>cime@aku.edu</strong><span>Applications &amp; programme questions</span></div></div>
+              <div class="row"><div><strong>Who applies</strong><span>Medical students · biomedical engineering students · peer-institution teams</span></div></div>
+              <div class="row"><div><strong>Timeline</strong><span>Applications open July · twelve-week cohort · brief comes after the visit</span></div></div>
+            </div>
+            <div style="margin-top:22px"><a class="btn lime" href="mailto:cime@aku.edu?subject=Hackcessible%20Cohort%202027%20application">Email to apply</a></div>
+          </article>
+          <form class="contact-panel" onsubmit="return hkSubmit(event,'apply')">
+            <div class="field"><label for="a-name">Full name</label><input id="a-name" name="name" type="text" required placeholder="Full name" /></div>
+            <div class="field"><label for="a-email">Email</label><input id="a-email" name="email" type="email" required placeholder="you@university.edu" /></div>
+            <div class="field"><label for="a-role">You are</label>
+              <select id="a-role" name="role">
+                <option>Medical student</option>
+                <option>Biomedical engineering student</option>
+                <option>Clinician / mentor</option>
+                <option>Peer-institution team</option>
+              </select>
+            </div>
+            <div class="field"><label for="a-inst">Institution</label><input id="a-inst" name="institution" type="text" placeholder="University / department" /></div>
+            <div class="field"><label for="a-msg">Why Hackcessible?</label><textarea id="a-msg" name="message" placeholder="A few lines about what draws you to the programme."></textarea></div>
+            <button class="btn" type="submit">Express interest</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script>
+  (function(){
+    var buttons = document.querySelectorAll(".contact-switch button");
+    var panels = { sponsor: document.getElementById("sponsor"), apply: document.getElementById("apply") };
+    function show(mode){
+      Object.keys(panels).forEach(function(k){ panels[k].hidden = (k !== mode); });
+      buttons.forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.mode === mode)); });
+      if (history.replaceState) history.replaceState(null, "", "#" + mode);
+    }
+    buttons.forEach(function(b){ b.addEventListener("click", function(){ show(b.dataset.mode); }); });
+    var hash = (location.hash || "").replace("#","");
+    show(panels[hash] ? hash : "sponsor");
+  })();
+
+  function hkSubmit(e, mode){
+    e.preventDefault();
+    var form = e.target;
+    var to = "cime@aku.edu";
+    var subject = mode === "sponsor"
+      ? "Sponsor Hackcessible Cohort 2027"
+      : "Hackcessible Cohort 2027 application";
+    var body = [];
+    Array.prototype.forEach.call(form.elements, function(el){
+      if (el.name && el.value) body.push(el.labels[0].textContent + ": " + el.value);
+    });
+    window.location.href = "mailto:" + to +
+      "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(body.join("\n"));
+    return false;
+  }
+  </script>
+</body>
+</html>

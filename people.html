@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>People — Hackcessible · Cohort 2026</title>
+  <meta name="description" content="The faculty, mentors, partners and participants behind Hackcessible Cohort 2026. Volunteer-heavy, credit-public, consent-gated." />
+  <script>(function(){try{var t=localStorage.getItem('hk-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body id="top">
+  <div id="site-nav"></div>
+
+  <main id="main">
+    <section class="section">
+      <div class="wrap people-wrap">
+        <div class="people-copy">
+          <span class="eyebrow">People</span>
+          <h2>The people behind Cohort 2026.</h2>
+          <p>Hackcessible is volunteer-heavy and credit-public. Faculty, mentors, partners and participants — the page keeps a revolving participant screen where real faces replace the placeholders once consent and photos are ready.</p>
+          <p><strong>Implementation note:</strong> replace each initials card with a participant headshot, name, role, and group. This section stays consent-gated for minors and challengers.</p>
+        </div>
+        <div class="carousel" aria-label="Rotating participant face screen placeholder">
+          <div class="avatar-track" id="avatarTrack"></div>
+          <div class="people-note">Drop participant photos here: square or portrait images work best. Suggested crop: 800×1000&nbsp;px. Use alt text and do not publish minors / challengers without written consent.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tight">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="title" style="font-size:clamp(32px,5vw,64px)">Credit, made public.</h2>
+          <p class="lead">Every role on the programme, named. Challengers and their families are credited only with written consent.</p>
+        </div>
+        <div class="people-grid" id="peopleGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script>
+  (function(){
+    var FACES = [
+      {f:"AM", n:"Austin Muchiri", r:"Engineering · Sawa / M5"},
+      {f:"AKU", n:"Medical students", r:"AKU Medical College"},
+      {f:"KU", n:"Biomedical engineers", r:"Kenyatta University"},
+      {f:"C", n:"Clinicians", r:"AKUH / CIME mentors"},
+      {f:"F", n:"Families", r:"Consent-gated credits"},
+      {f:"M", n:"Mentors", r:"Design · clinical · engineering"}
+    ];
+    function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+
+    function avatar(a){
+      return '<div class="avatar"><div class="face">'+esc(a.f)+'</div><div><strong>'+esc(a.n)+'</strong><br><span>'+esc(a.r)+'</span></div></div>';
+    }
+    var set = FACES.map(avatar).join("");
+    document.getElementById("avatarTrack").innerHTML =
+      '<div class="avatar-set">'+set+'</div>' +
+      '<div class="avatar-set" aria-hidden="true">'+set+'</div>';
+
+    document.getElementById("peopleGrid").innerHTML = FACES.map(function(a){
+      return '<article class="person"><div class="face">'+esc(a.f)+'</div><div class="person-body"><strong>'+esc(a.n)+'</strong><span>'+esc(a.r)+'</span></div></article>';
+    }).join("");
+  })();
+  </script>
+</body>
+</html>
