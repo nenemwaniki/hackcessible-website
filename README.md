@@ -23,6 +23,13 @@ A floating, Apple-style pill fixed to the top of every page:
 - **Changes on scroll** — past the top, the pill tightens, gains opacity and lifts.
 - **Mobile** — collapses to a menu button; the links drop down as a second glass pill.
 
+## Interactability & Transitions
+The site uses a **"Liquid Smooth"** motion system to elevate the user experience:
+- **SPA-Lite Navigation** — Intercepts link clicks in `site.js` to swap content via background fetch. The navigation bar and footer never reload, ensuring perfect stability.
+- **Vertical Glide Transitions** — Content enters and exits with a choreographed fade and slide (600ms, `cubic-bezier(0.4, 0, 0.2, 1)`).
+- **Sliding UI Indicators** — Physical pill backgrounds that physically slide between states in the main nav and case-study tabs.
+- **Enhanced Scroll UX** — Smooth scrolling for all internal anchors with a 100px offset for the floating navbar.
+
 ## Run
 No build step. Open `index.html` in a browser, or serve the folder:
 ```

@@ -1,7 +1,7 @@
 # Design Spec: Liquid Smooth Case Study Transitions
 **Date:** 2026-06-04
 **Topic:** Interactivity Improvements
-**Status:** Draft
+**Status:** Implemented
 
 ## Overview
 The goal is to improve the perceived quality and smoothness of the case-study switcher on the `groups.html` page. Currently, the content swaps instantly via `innerHTML`, which feels "rough" and jarring. We will implement a "Liquid Smooth" transition system that uses CSS animations and a choreographed JavaScript sequence to glide content into place.

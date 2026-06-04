@@ -1,7 +1,7 @@
 # Design Spec: Vertical Glide Page Transitions (SPA-Lite)
 **Date:** 2026-06-04
 **Topic:** Interactivity / Navigation Improvements
-**Status:** Draft
+**Status:** Implemented
 
 ## Overview
 To achieve a "premium" app-like feel, we will implement a "SPA-Lite" (Single Page Application Lite) navigation system. Instead of full browser reloads when clicking nav links, we will intercept the clicks, fetch the target page content via JavaScript, and transition the `<main>` content area using a **Vertical Glide** animation. The navigation bar will remain static and persistent throughout the session.
