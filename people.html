@@ -36,34 +36,41 @@
         <div class="people-grid" id="peopleGrid"></div>
       </div>
     </section>
+
+    <script>
+    (function(){
+      var FACES = [
+        {f:"AM", n:"Austin Muchiri", r:"Engineering · Sawa / M5"},
+        {f:"AKU", n:"Medical students", r:"AKU Medical College"},
+        {f:"KU", n:"Biomedical engineers", r:"Kenyatta University"},
+        {f:"C", n:"Clinicians", r:"AKUH / CIME mentors"},
+        {f:"F", n:"Families", r:"Consent-gated credits"},
+        {f:"M", n:"Mentors", r:"Design · clinical · engineering"}
+      ];
+      function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+
+      function avatar(a){
+        return '<div class="avatar"><div class="face">'+esc(a.f)+'</div><div><strong>'+esc(a.n)+'</strong><br><span>'+esc(a.r)+'</span></div></div>';
+      }
+      var set = FACES.map(avatar).join("");
+      var track = document.getElementById("avatarTrack");
+      if (track) {
+        track.innerHTML =
+          '<div class="avatar-set">'+set+'</div>' +
+          '<div class="avatar-set" aria-hidden="true">'+set+'</div>';
+      }
+
+      var grid = document.getElementById("peopleGrid");
+      if (grid) {
+        grid.innerHTML = FACES.map(function(a){
+          return '<article class="person"><div class="face">'+esc(a.f)+'</div><div class="person-body"><strong>'+esc(a.n)+'</strong><span>'+esc(a.r)+'</span></div></article>';
+        }).join("");
+      }
+    })();
+    </script>
   </main>
 
   <div id="site-footer"></div>
   <script src="site.js"></script>
-  <script>
-  (function(){
-    var FACES = [
-      {f:"AM", n:"Austin Muchiri", r:"Engineering · Sawa / M5"},
-      {f:"AKU", n:"Medical students", r:"AKU Medical College"},
-      {f:"KU", n:"Biomedical engineers", r:"Kenyatta University"},
-      {f:"C", n:"Clinicians", r:"AKUH / CIME mentors"},
-      {f:"F", n:"Families", r:"Consent-gated credits"},
-      {f:"M", n:"Mentors", r:"Design · clinical · engineering"}
-    ];
-    function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
-
-    function avatar(a){
-      return '<div class="avatar"><div class="face">'+esc(a.f)+'</div><div><strong>'+esc(a.n)+'</strong><br><span>'+esc(a.r)+'</span></div></div>';
-    }
-    var set = FACES.map(avatar).join("");
-    document.getElementById("avatarTrack").innerHTML =
-      '<div class="avatar-set">'+set+'</div>' +
-      '<div class="avatar-set" aria-hidden="true">'+set+'</div>';
-
-    document.getElementById("peopleGrid").innerHTML = FACES.map(function(a){
-      return '<article class="person"><div class="face">'+esc(a.f)+'</div><div class="person-body"><strong>'+esc(a.n)+'</strong><span>'+esc(a.r)+'</span></div></article>';
-    }).join("");
-  })();
-  </script>
 </body>
 </html>

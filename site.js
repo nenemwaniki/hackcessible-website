@@ -173,9 +173,13 @@
 
   // --- SPA-Lite Navigation ---
   var main = document.querySelector('main') || document.body;
+  var isNavigating = false;
 
   function navigate(url, addHistory) {
+    if (isNavigating || url === location.pathname) return;
     if (addHistory === undefined) addHistory = true;
+
+    isNavigating = true;
 
     // 1. Exit transition
     main.classList.add('page-exit');
@@ -183,7 +187,10 @@
     // 2. Fetch new content
     setTimeout(function() {
       fetch(url)
-        .then(function(response) { return response.text(); })
+        .then(function(response) { 
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.text(); 
+        })
         .then(function(html) {
           var parser = new DOMParser();
           var doc = parser.parseFromString(html, 'text/html');
@@ -210,7 +217,11 @@
             history.pushState({ url: url }, '', url);
           }
 
-          window.scrollTo(0, 0);
+          if (url.indexOf('#') === -1) {
+            window.scrollTo(0, 0);
+          }
+
+          isNavigating = false;
 
           // 3. Entry transition
           main.classList.remove('page-exit');
@@ -238,6 +249,7 @@
         })
         .catch(function(err) {
           console.error('Navigation failed:', err);
+          isNavigating = false;
           window.location.href = url; // Fallback
         });
     }, 300);

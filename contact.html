@@ -84,40 +84,46 @@
         </div>
       </div>
     </section>
+
+    <script>
+    (function(){
+      var buttons = document.querySelectorAll(".contact-switch button");
+      var panels = { sponsor: document.getElementById("sponsor"), apply: document.getElementById("apply") };
+      function show(mode){
+        if (!panels.sponsor || !panels.apply) return;
+        Object.keys(panels).forEach(function(k){ panels[k].hidden = (k !== mode); });
+        buttons.forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.mode === mode)); });
+        // Don't update hash if navigating via SPA
+        if (history.replaceState && location.hash !== "#" + mode) history.replaceState(null, "", "#" + mode);
+      }
+      buttons.forEach(function(b){ b.addEventListener("click", function(){ show(b.dataset.mode); }); });
+      var hash = (location.hash || "").replace("#","");
+      show(panels[hash] ? hash : "sponsor");
+    })();
+
+    function hkSubmit(e, mode){
+      e.preventDefault();
+      var form = e.target;
+      var to = "cime@aku.edu";
+      var subject = mode === "sponsor"
+        ? "Sponsor Hackcessible Cohort 2027"
+        : "Hackcessible Cohort 2027 application";
+      var body = [];
+      Array.prototype.forEach.call(form.elements, function(el){
+        if (el.name && el.value) {
+          var label = el.labels && el.labels[0] ? el.labels[0].textContent : el.name;
+          body.push(label + ": " + el.value);
+        }
+      });
+      window.location.href = "mailto:" + to +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body.join("\n"));
+      return false;
+    }
+    </script>
   </main>
 
   <div id="site-footer"></div>
   <script src="site.js"></script>
-  <script>
-  (function(){
-    var buttons = document.querySelectorAll(".contact-switch button");
-    var panels = { sponsor: document.getElementById("sponsor"), apply: document.getElementById("apply") };
-    function show(mode){
-      Object.keys(panels).forEach(function(k){ panels[k].hidden = (k !== mode); });
-      buttons.forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.mode === mode)); });
-      if (history.replaceState) history.replaceState(null, "", "#" + mode);
-    }
-    buttons.forEach(function(b){ b.addEventListener("click", function(){ show(b.dataset.mode); }); });
-    var hash = (location.hash || "").replace("#","");
-    show(panels[hash] ? hash : "sponsor");
-  })();
-
-  function hkSubmit(e, mode){
-    e.preventDefault();
-    var form = e.target;
-    var to = "cime@aku.edu";
-    var subject = mode === "sponsor"
-      ? "Sponsor Hackcessible Cohort 2027"
-      : "Hackcessible Cohort 2027 application";
-    var body = [];
-    Array.prototype.forEach.call(form.elements, function(el){
-      if (el.name && el.value) body.push(el.labels[0].textContent + ": " + el.value);
-    });
-    window.location.href = "mailto:" + to +
-      "?subject=" + encodeURIComponent(subject) +
-      "&body=" + encodeURIComponent(body.join("\n"));
-    return false;
-  }
-  </script>
 </body>
 </html>
