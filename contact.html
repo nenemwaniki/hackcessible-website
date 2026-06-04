@@ -89,12 +89,28 @@
     (function(){
       var buttons = document.querySelectorAll(".contact-switch button");
       var panels = { sponsor: document.getElementById("sponsor"), apply: document.getElementById("apply") };
+      var container = document.querySelector("main"); // Apply switching to main or common parent
+
       function show(mode){
         if (!panels.sponsor || !panels.apply) return;
-        Object.keys(panels).forEach(function(k){ panels[k].hidden = (k !== mode); });
-        buttons.forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.mode === mode)); });
-        // Don't update hash if navigating via SPA
-        if (history.replaceState && location.hash !== "#" + mode) history.replaceState(null, "", "#" + mode);
+        
+        // Phase 1: Fade out
+        container.classList.add("is-switching");
+
+        // Phase 2: Update after transition duration (750ms)
+        setTimeout(function() {
+          Object.keys(panels).forEach(function(k){ panels[k].hidden = (k !== mode); });
+          buttons.forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.mode === mode)); });
+          
+          if (history.replaceState && location.hash !== "#" + mode) {
+            history.replaceState(null, "", "#" + mode);
+          }
+
+          // Phase 3: Fade in
+          requestAnimationFrame(function() {
+            container.classList.remove("is-switching");
+          });
+        }, 750);
       }
       buttons.forEach(function(b){ b.addEventListener("click", function(){ show(b.dataset.mode); }); });
       var hash = (location.hash || "").replace("#","");

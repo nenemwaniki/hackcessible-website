@@ -408,7 +408,8 @@ img{max-width:100%;display:block}
 .contact-switch button[aria-pressed="true"]{background:var(--ink);color:#fff}
 :root[data-theme="dark"] .contact-switch button[aria-pressed="true"]{background:var(--lime);color:#0e120f}
 
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;transition:opacity .75s cubic-bezier(.4,0,.2,1),transform .75s cubic-bezier(.4,0,.2,1);opacity:1;transform:translateY(0);will-change:opacity,transform}
+.is-switching .contact-grid{opacity:0;transform:translateY(15px);transition:none}
 .contact-panel{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:34px}
 .contact-panel.dark{background:var(--ink);color:#fff}
 :root[data-theme="dark"] .contact-panel.dark{background:linear-gradient(135deg,var(--green),#0a0d0a)}
@@ -420,12 +421,7 @@ img{max-width:100%;display:block}
 .field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
 .field label{font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--fg-2)}
 .field input,.field textarea,.field select{
-  font:inherit;padding:13px 15px;border-radius:14px;border:1px solid var(--border);
-  background:var(--surface-flat);color:var(--fg-1);
-}
-.field textarea{min-height:120px;resize:vertical}
-.contact-meta{display:flex;flex-direction:column;gap:14px;margin-top:8px}
-.contact-meta .row{display:flex;gap:12px;align-items:flex-start;border-top:1px solid var(--border);padding-top:14px}
+  font:inherit;padding:13px 15px;bordeact-meta .row{display:flex;gap:12px;align-items:flex-start;border-top:1px solid var(--border);padding-top:14px}
 .contact-meta .row:first-child{border-top:none;padding-top:0}
 .contact-meta strong{display:block;font-size:15px;letter-spacing:-.02em}
 .contact-meta span{color:var(--fg-2);font-size:14px}
@@ -448,8 +444,8 @@ img{max-width:100%;display:block}
    PAGE TRANSITIONS
    ============================================================ */
 main {
-  transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
 }
 
@@ -500,6 +496,13 @@ main {
 
 /* ============================================================
    MOTION — respect reduced-motion (brand commitment)
+   ============================================================ */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .marquee div,.avatar-track{animation:none}
+  *{transition:none !important}
+}
+ commitment)
    ============================================================ */
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
