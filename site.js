@@ -38,7 +38,7 @@
     '<div class="nav-shell">' +
       '<nav class="nav" aria-label="Primary">' +
         '<a class="brand" href="index.html"><span class="mark">H</span><span class="brand-word">Hackcessible</span></a>' +
-        '<div class="nav-links" id="navLinks">' + links + "</div>" +
+        '<div class="nav-links" id="navLinks"><div class="nav-indicator" id="navIndicator"></div>' + links + "</div>" +
         '<div class="nav-actions">' + sunMoon + menuBtn + "</div>" +
       "</nav>" +
     "</div>";
@@ -117,6 +117,11 @@
       var open = navLinks.classList.toggle("open");
       menuToggle.setAttribute("aria-expanded", String(open));
       menuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      
+      // Update indicator position if menu opens
+      if (open && activeLink) {
+        setTimeout(function() { moveNavIndicator(activeLink); }, 300);
+      }
     });
     navLinks.addEventListener("click", function (e) {
       if (e.target.closest("a")) {
@@ -125,4 +130,137 @@
       }
     });
   }
+
+  // --- Sliding Nav Indicator ---
+  var navIndicator = document.getElementById("navIndicator");
+  var navAnchors = navLinks ? navLinks.querySelectorAll(".nav-link") : [];
+  var activeLink = navLinks ? navLinks.querySelector('[aria-current="page"]') : null;
+
+  function moveNavIndicator(el) {
+    if (!navIndicator || !el) return;
+    navIndicator.style.opacity = '1';
+    navIndicator.style.width = el.offsetWidth + 'px';
+    navIndicator.style.height = el.offsetHeight + 'px';
+    navIndicator.style.transform = 'translate(' + el.offsetLeft + 'px, ' + el.offsetTop + 'px)';
+  }
+
+  // Set initial position
+  if (activeLink) {
+    // Small delay to ensure layout is ready
+    setTimeout(function() { moveNavIndicator(activeLink); }, 100);
+    // Also update on window resize
+    window.addEventListener('resize', function() {
+      moveNavIndicator(activeLink);
+    }, { passive: true });
+  }
+
+  // Hover interactions
+  navAnchors.forEach(function(a) {
+    a.addEventListener('mouseenter', function() {
+      moveNavIndicator(a);
+    });
+  });
+
+  if (navLinks) {
+    navLinks.addEventListener('mouseleave', function() {
+      if (activeLink) {
+        moveNavIndicator(activeLink);
+      } else {
+        navIndicator.style.opacity = '0';
+      }
+    });
+  }
+
+  // --- SPA-Lite Navigation ---
+  var main = document.querySelector('main') || document.body;
+
+  function navigate(url, addHistory) {
+    if (addHistory === undefined) addHistory = true;
+
+    // 1. Exit transition
+    main.classList.add('page-exit');
+
+    // 2. Fetch new content
+    setTimeout(function() {
+      fetch(url)
+        .then(function(response) { return response.text(); })
+        .then(function(html) {
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(html, 'text/html');
+          var newMain = doc.querySelector('main');
+          var newTitle = doc.querySelector('title');
+
+          if (newTitle) document.title = newTitle.innerText;
+          if (newMain) {
+            main.innerHTML = newMain.innerHTML;
+            
+            // Re-initialize scripts in new main
+            var scripts = main.querySelectorAll('script');
+            scripts.forEach(function(oldScript) {
+              var newScript = document.createElement('script');
+              Array.from(oldScript.attributes).forEach(function(attr) {
+                newScript.setAttribute(attr.name, attr.value);
+              });
+              newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+              oldScript.parentNode.replaceChild(newScript, oldScript);
+            });
+          }
+
+          if (addHistory) {
+            history.pushState({ url: url }, '', url);
+          }
+
+          window.scrollTo(0, 0);
+
+          // 3. Entry transition
+          main.classList.remove('page-exit');
+          main.classList.add('page-enter-start');
+
+          // Update active link in nav
+          var currentPath = location.pathname.split("/").pop() || "index.html";
+          navAnchors.forEach(function(a) {
+            var href = a.getAttribute('href');
+            if (href === currentPath) {
+              a.setAttribute('aria-current', 'page');
+              activeLink = a;
+            } else {
+              a.removeAttribute('aria-current');
+            }
+          });
+          
+          if (activeLink) moveNavIndicator(activeLink);
+
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              main.classList.remove('page-enter-start');
+            });
+          });
+        })
+        .catch(function(err) {
+          console.error('Navigation failed:', err);
+          window.location.href = url; // Fallback
+        });
+    }, 300);
+  }
+
+  // Intercept internal links
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a');
+    if (!link) return;
+
+    var href = link.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+    
+    // Ignore special clicks (cmd/ctrl)
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+    e.preventDefault();
+    navigate(href);
+  });
+
+  // Handle back/forward
+  window.addEventListener('popstate', function() {
+    var path = location.pathname.split("/").pop() || "index.html";
+    navigate(path, false);
+  });
 })();
