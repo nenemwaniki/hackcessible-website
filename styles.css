@@ -484,6 +484,8 @@ img{max-width:100%;display:block}
   .lessons,.people-grid,.gallery{grid-template-columns:1fr 1fr}
   .case-left{position:static}
   .feature-tile.span2{grid-column:auto}
+  /* let the dropdown escape the pill — overflow:hidden would clip it */
+  .nav{overflow:visible}
   .nav-links{
     position:absolute;top:calc(100% + 12px);right:0;left:0;
     flex-direction:column;align-items:stretch;gap:4px;
