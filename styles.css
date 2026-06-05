@@ -336,6 +336,21 @@ img{max-width:100%;display:block}
 :root[data-theme="dark"] .surface small{color:var(--lime)}
 .surface strong{display:block;margin:8px 0;font-size:18px;letter-spacing:-.03em;font-weight:800}
 
+/* homepage group cards — both teams on the landing page */
+.home-groups{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.home-group{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-card);text-decoration:none;color:inherit;transition:transform .2s ease,box-shadow .2s ease}
+.home-group:hover{transform:translateY(-4px);box-shadow:0 22px 50px rgba(17,17,17,.12)}
+.home-group-photo{aspect-ratio:16/10;overflow:hidden;background:var(--surface-flat)}
+.home-group-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.home-group:hover .home-group-photo img{transform:scale(1.04)}
+.home-group-body{padding:26px 28px 30px;display:flex;flex-direction:column;gap:12px;flex:1;border-top:6px solid transparent}
+.home-group.time .home-group-body{border-top-color:var(--lime)}
+.home-group.sawa .home-group-body{border-top-color:var(--blue)}
+.home-group-eyebrow{font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--fg-2)}
+.home-group-body h3{font-size:clamp(26px,3vw,38px);line-height:.95;letter-spacing:-.05em;margin:0;font-weight:800}
+.home-group-body p{color:var(--fg-2);font-size:17px;margin:0;max-width:38ch}
+.home-group-cta{margin-top:auto;font-weight:800;letter-spacing:-.02em;color:var(--fg-1)}
+
 /* case study tabs + layout */
 .case-tabs{display:inline-flex;gap:6px;padding:6px;border:1px solid var(--border);border-radius:var(--pill);background:var(--surface);margin-bottom:24px;position:relative;z-index:1}
 .case-tab{border:none;background:transparent;color:var(--fg-2);font-weight:800;font-size:15px;letter-spacing:-.02em;padding:10px 20px;border-radius:var(--pill);cursor:pointer;transition:background .2s,color .2s}
@@ -384,7 +399,8 @@ img{max-width:100%;display:block}
 .avatar-track{display:flex;gap:16px;width:max-content;animation:faces 24s linear infinite;padding-top:46px;will-change:transform}
 .avatar-set{display:flex;gap:16px}
 .avatar{width:190px;height:430px;border-radius:28px;background:var(--paper2);color:#111;display:flex;flex-direction:column;justify-content:space-between;padding:16px;border:1px solid rgba(255,255,255,.18)}
-.face{height:255px;border-radius:22px;background:linear-gradient(135deg,var(--blue),var(--lime));display:grid;place-items:center;font-size:54px;font-weight:800;letter-spacing:-.08em;color:#111}
+.face{height:255px;border-radius:22px;overflow:hidden;background:linear-gradient(135deg,var(--blue),var(--lime));display:grid;place-items:center;font-size:54px;font-weight:800;letter-spacing:-.08em;color:#111}
+.face img{width:100%;height:100%;object-fit:cover}
 .avatar:nth-child(3n+2) .face{background:linear-gradient(135deg,var(--orange),#ffd7c7)}
 .avatar:nth-child(3n+3) .face{background:linear-gradient(135deg,#eee2ff,#d9efff)}
 .avatar strong{font-size:21px;letter-spacing:-.04em}
@@ -396,9 +412,20 @@ img{max-width:100%;display:block}
 .people-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
 .person{border:1px solid var(--border);border-radius:var(--radius2);background:var(--surface);overflow:hidden}
 .person .face{height:180px;border-radius:0}
+/* initials cards keep a fixed light gradient so dark text reads in any theme */
+.face.noimg{background:linear-gradient(135deg,#d9efff,#d9ff5a);color:#0e120f}
 .person .person-body{padding:18px}
 .person .person-body strong{display:block;font-size:19px;letter-spacing:-.03em}
 .person .person-body span{color:var(--fg-2);font-size:14px;font-weight:700}
+
+:root[data-theme="dark"] .avatar{background:var(--paper2);color:var(--fg-1);border-color:rgba(255,255,255,.14)}
+:root[data-theme="dark"] .avatar span{color:var(--fg-2)}
+
+/* moments gallery */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+.shot{margin:0;border:1px solid var(--border);border-radius:var(--radius2);background:var(--surface);overflow:hidden}
+.shot img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.shot figcaption{padding:14px 16px;font-weight:800;letter-spacing:-.02em;font-size:14px;color:var(--fg-1)}
 
 /* ============================================================
    CONTACT page — caters for both sponsor + applicant
@@ -467,14 +494,33 @@ main {
 }
 
 /* ============================================================
+   DARK MODE — legibility fixes
+   Surfaces tinted blue / lavender / paper darken in dark mode,
+   but their text was hard-coded black. Flip it to readable ink.
+   ============================================================ */
+:root[data-theme="dark"] .feature-tile.blue,
+:root[data-theme="dark"] .feature-tile.lav{color:var(--fg-1)}
+:root[data-theme="dark"] .feature-tile.blue .tile-eyebrow,
+:root[data-theme="dark"] .feature-tile.lav .tile-eyebrow{color:var(--fg-2)}
+:root[data-theme="dark"] .feature-tile.blue p,
+:root[data-theme="dark"] .feature-tile.lav p{color:var(--fg-2)}
+
+:root[data-theme="dark"] .group-card.sawa .band{color:var(--fg-1)}
+
+:root[data-theme="dark"] .avatar{background:var(--paper2);color:var(--fg-1);border-color:rgba(255,255,255,.14)}
+:root[data-theme="dark"] .avatar span{color:var(--fg-2)}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media(max-width:1000px){
-  .section-head,.model-grid,.groups,.case,.people-wrap,.contact-grid,.foot,.tile-grid,.stat-band{grid-template-columns:1fr}
+  .section-head,.model-grid,.groups,.case,.people-wrap,.contact-grid,.foot,.tile-grid,.stat-band,.home-groups{grid-template-columns:1fr}
   .model-copy{grid-row:auto}
-  .lessons,.people-grid{grid-template-columns:1fr 1fr}
+  .lessons,.people-grid,.gallery{grid-template-columns:1fr 1fr}
   .case-left{position:static}
   .feature-tile.span2{grid-column:auto}
+  /* let the dropdown escape the pill — overflow:hidden would clip it */
+  .nav{overflow:visible}
   .nav-links{
     position:absolute;top:calc(100% + 12px);right:0;left:0;
     flex-direction:column;align-items:stretch;gap:4px;
@@ -506,6 +552,4 @@ main {
   html{scroll-behavior:auto}
   .marquee div,.avatar-track{animation:none}
   *{transition:none !important}
-}
-ition:none !important}
 }

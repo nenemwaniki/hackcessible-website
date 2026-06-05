@@ -17,12 +17,12 @@
         <div class="people-copy">
           <span class="eyebrow">People</span>
           <h2>The people behind Cohort 2026.</h2>
-          <p>Hackcessible is volunteer-heavy and credit-public. Faculty, mentors, partners and participants — the page keeps a revolving participant screen where real faces replace the placeholders once consent and photos are ready.</p>
-          <p><strong>Implementation note:</strong> replace each initials card with a participant headshot, name, role, and group. This section stays consent-gated for minors and challengers.</p>
+          <p>Hackcessible is volunteer-heavy and credit-public. Faculty, mentors, partners and participants — named here, with faces added as photos and consent come in.</p>
+          <p>Everyone listed below took part in Cohort 2026. A few cards are still waiting on a headshot; the rest of the cohort joins as we confirm names and consent.</p>
         </div>
-        <div class="carousel" aria-label="Rotating participant face screen placeholder">
+        <div class="carousel" aria-label="Rotating participant faces">
           <div class="avatar-track" id="avatarTrack"></div>
-          <div class="people-note">Drop participant photos here: square or portrait images work best. Suggested crop: 800×1000&nbsp;px. Use alt text and do not publish minors / challengers without written consent.</div>
+          <div class="people-note">Faces from the cohort. Minors and challengers are never published without written consent.</div>
         </div>
       </div>
     </section>
@@ -36,41 +36,96 @@
         <div class="people-grid" id="peopleGrid"></div>
       </div>
     </section>
-
-    <script>
-    (function(){
-      var FACES = [
-        {f:"AM", n:"Austin Muchiri", r:"Engineering · Sawa / M5"},
-        {f:"AKU", n:"Medical students", r:"AKU Medical College"},
-        {f:"KU", n:"Biomedical engineers", r:"Kenyatta University"},
-        {f:"C", n:"Clinicians", r:"AKUH / CIME mentors"},
-        {f:"F", n:"Families", r:"Consent-gated credits"},
-        {f:"M", n:"Mentors", r:"Design · clinical · engineering"}
-      ];
-      function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
-
-      function avatar(a){
-        return '<div class="avatar"><div class="face">'+esc(a.f)+'</div><div><strong>'+esc(a.n)+'</strong><br><span>'+esc(a.r)+'</span></div></div>';
-      }
-      var set = FACES.map(avatar).join("");
-      var track = document.getElementById("avatarTrack");
-      if (track) {
-        track.innerHTML =
-          '<div class="avatar-set">'+set+'</div>' +
-          '<div class="avatar-set" aria-hidden="true">'+set+'</div>';
-      }
-
-      var grid = document.getElementById("peopleGrid");
-      if (grid) {
-        grid.innerHTML = FACES.map(function(a){
-          return '<article class="person"><div class="face">'+esc(a.f)+'</div><div class="person-body"><strong>'+esc(a.n)+'</strong><span>'+esc(a.r)+'</span></div></article>';
-        }).join("");
-      }
-    })();
-    </script>
+    <section class="section tight">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="title" style="font-size:clamp(32px,5vw,64px)">Moments from Cohort 2026.</h2>
+          <p class="lead">Living rooms, boardrooms and build benches — a few frames from the twelve weeks.</p>
+        </div>
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </section>
   </main>
 
   <div id="site-footer"></div>
   <script src="site.js"></script>
+  <script>
+  (function(){
+    // Cohort 2026 roster. img = headshot if we have one; omit to show initials.
+    // More participants join as names + consent are confirmed.
+    var PEOPLE = [
+      {n:"Dr Michael",         r:"Director · CIME",            img:"images/Dr Michael.JPG"},
+      {n:"Dr Raana",           r:"Clinical consultant",        img:"images/Dr Raana.JPG"},
+      {n:"Dr Susan",           r:"Clinical consultant"},
+      {n:"Austin Muchiri",     r:"CIME staff · Project organiser", img:"images/Austin muchiri.JPG"},
+      {n:"Willie",             r:"CIME staff"},
+      {n:"Kevin",              r:"CIME staff"},
+      {n:"Kayuyu",             r:"Mentor",                     img:"images/Kayuyu.JPG"},
+      {n:"Stacy",              r:"Mentor",                     img:"images/Stacy.JPG"},
+      {n:"Melissa Kimari",     r:"Group 01 · TimeKeeper lead", img:"images/Melissa.JPG"},
+      {n:"Munene Mwaniki",     r:"Group 02 · Sawa lead",       img:"images/Munene Halfway.jpeg"},
+      {n:"Nasha Ayiera",       r:"Participant · Cohort 2026",  img:"images/Nasha.jpeg"},
+      {n:"Samuel Wachira",     r:"Participant · Cohort 2026",  img:"images/Samuel.JPG"},
+      {n:"Ishmael Njoka",      r:"Participant · Cohort 2026",  img:"images/Ishmael.JPG"},
+      {n:"Anderson Onkangi",   r:"Participant · Cohort 2026",  img:"images/Anderson.JPG"},
+      {n:"Britney Ngeno",      r:"Participant · Cohort 2026",  img:"images/Britney.JPG"},
+      {n:"Martin Magu",        r:"Participant · Cohort 2026",  img:"images/Martin.JPG"},
+      {n:"Kiprotich Mololu",   r:"Participant · Cohort 2026",  img:"images/Mololu.JPG"},
+      {n:"Derrick Maina",      r:"Participant · Cohort 2026"},
+      {n:"Kimberly Kimani",    r:"Participant · Cohort 2026"},
+      {n:"Natasha Sandra",     r:"Participant · Cohort 2026"},
+      {n:"Bochaberi Samantha", r:"Participant · Cohort 2026"},
+      {n:"Angela Shigoli",     r:"Participant · Cohort 2026"},
+      {n:"Kamaldin Girad",     r:"Participant · Cohort 2026"},
+      {n:"Fatima Faisal",      r:"Participant · Cohort 2026"},
+      {n:"June Guchu",         r:"Participant · Cohort 2026"}
+    ];
+
+    var MOMENTS = [
+      {img:"images/AKU ambience.jpeg",        t:"AKU ambience"},
+      {img:"images/Boardroom 1.JPG",          t:"In the boardroom"},
+      {img:"images/Group 1 portrait.html.JPG",t:"Group 1 portrait"},
+      {img:"images/Group 1 discussion.jpeg",  t:"Group 1 in discussion"},
+      {img:"images/Group 2 portrait.JPG",     t:"Group 2 portrait"},
+      {img:"images/Group 2 discussion.JPG",   t:"Group 2 in discussion"},
+      {img:"images/Martin coding.jpeg",       t:"Martin, mid-build"},
+      {img:"images/Hackathon friday.jpeg",    t:"Hackathon Friday"}
+    ];
+
+    function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+    function url(s){return encodeURI(s);}
+    function initials(name){
+      return name.replace(/^Dr\s+/i,"").split(/\s+/).slice(0,2)
+        .map(function(w){return w.charAt(0);}).join("").toUpperCase();
+    }
+    function faceInner(p){
+      return p.img
+        ? '<img src="'+url(p.img)+'" alt="'+esc(p.n)+'" loading="lazy" />'
+        : esc(initials(p.n));
+    }
+
+    var withPhotos = PEOPLE.filter(function(p){return p.img;});
+
+    function avatar(p){
+      return '<div class="avatar"><div class="face">'+faceInner(p)+'</div>'+
+             '<div><strong>'+esc(p.n)+'</strong><br><span>'+esc(p.r)+'</span></div></div>';
+    }
+    var set = withPhotos.map(avatar).join("");
+    document.getElementById("avatarTrack").innerHTML =
+      '<div class="avatar-set">'+set+'</div>' +
+      '<div class="avatar-set" aria-hidden="true">'+set+'</div>';
+
+    document.getElementById("peopleGrid").innerHTML = PEOPLE.map(function(p){
+      var noimg = p.img ? "" : " noimg";
+      return '<article class="person"><div class="face'+noimg+'">'+faceInner(p)+'</div>'+
+             '<div class="person-body"><strong>'+esc(p.n)+'</strong><span>'+esc(p.r)+'</span></div></article>';
+    }).join("");
+
+    document.getElementById("gallery").innerHTML = MOMENTS.map(function(m){
+      return '<figure class="shot"><img src="'+url(m.img)+'" alt="'+esc(m.t)+'" loading="lazy" />'+
+             '<figcaption>'+esc(m.t)+'</figcaption></figure>';
+    }).join("");
+  })();
+  </script>
 </body>
 </html>
