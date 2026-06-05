@@ -4,3 +4,5 @@ node_modules/
 .vercel
 .superpowers/
 Design/plans/
+.gemini/
+.vscode/

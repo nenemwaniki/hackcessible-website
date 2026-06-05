@@ -16,6 +16,14 @@ A multi-page public showcase for **Hackcessible**, a clinical-engineering progra
 - `site.js` — injects the nav + footer on every page and wires the toggles.
 - `fonts/` — self-hosted Plus Jakarta Sans (variable, upright + italic). Fraunces loads from Google Fonts.
 
+## Repository workflow
+The codebase stays compact, while design notes and implementation summaries live in `Design/`.
+- Keep feature work on a topic branch that matches the change stream, such as `transitions` or `adjustments+images`.
+- Keep code commits and documentation commits separate when practical.
+- Use `README.md` for the stable public overview and `Design/` for dated plans, session summaries, and workflow notes.
+- Open pull requests from the feature branch into the branch that owns the work stream, then merge only after preview and verification.
+- Prefer small commits that describe a single behavior change, then capture the outcome in a short design note.
+
 ## The "liquid glass" nav
 A floating, Apple-style pill fixed to the top of every page:
 - **Translucent glass** — `backdrop-filter: blur + saturate`, a top specular sheen, and a hairline highlight.
