@@ -16,12 +16,27 @@ A multi-page public showcase for **Hackcessible**, a clinical-engineering progra
 - `site.js` — injects the nav + footer on every page and wires the toggles.
 - `fonts/` — self-hosted Plus Jakarta Sans (variable, upright + italic). Fraunces loads from Google Fonts.
 
+## Repository workflow
+The codebase stays compact, while design notes and implementation summaries live in `Design/`.
+- Keep feature work on a topic branch that matches the change stream, such as `transitions` or `adjustments+images`.
+- Keep code commits and documentation commits separate when practical.
+- Use `README.md` for the stable public overview and `Design/` for dated plans, session summaries, and workflow notes.
+- Open pull requests from the feature branch into the branch that owns the work stream, then merge only after preview and verification.
+- Prefer small commits that describe a single behavior change, then capture the outcome in a short design note.
+
 ## The "liquid glass" nav
 A floating, Apple-style pill fixed to the top of every page:
 - **Translucent glass** — `backdrop-filter: blur + saturate`, a top specular sheen, and a hairline highlight.
 - **Changes once you toggle** — a sun/moon button flips the whole site between light and dark; the glass and accents morph with it. Preference is saved to `localStorage`.
 - **Changes on scroll** — past the top, the pill tightens, gains opacity and lifts.
 - **Mobile** — collapses to a menu button; the links drop down as a second glass pill.
+
+## Interactability & Transitions
+The site uses a **"Liquid Smooth"** motion system to elevate the user experience:
+- **SPA-Lite Navigation** — Intercepts link clicks in `site.js` to swap content via background fetch. The navigation bar and footer never reload, ensuring perfect stability.
+- **Vertical Glide Transitions** — Content enters and exits with a choreographed fade and slide (600ms, `cubic-bezier(0.4, 0, 0.2, 1)`).
+- **Sliding UI Indicators** — Physical pill backgrounds that physically slide between states in the main nav and case-study tabs.
+- **Enhanced Scroll UX** — Smooth scrolling for all internal anchors with a 100px offset for the floating navbar.
 
 ## Run
 No build step. Open `index.html` in a browser, or serve the folder:

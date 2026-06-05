@@ -61,6 +61,7 @@
     <section class="section" id="cases">
       <div class="wrap">
         <div class="case-tabs" role="group" aria-label="Choose a case study">
+          <div class="case-tab-indicator" id="caseTabIndicator"></div>
           <button class="case-tab" data-case="timekeeper" aria-pressed="true">TimeKeeper</button>
           <button class="case-tab" data-case="sawa" aria-pressed="false">Sawa</button>
         </div>
@@ -75,70 +76,94 @@
         </div>
       </div>
     </section>
+
+    <script>
+    (function(){
+      var CASES = {
+        timekeeper: {
+          label:"Group 01 · Cohort 2026", name:"TimeKeeper", ink:false,
+          blurb:"A school day, made visible. The product says one thing at a time, with a quiet vibration ninety seconds before each transition. It is deliberately not a smartphone.",
+          blocks:[
+            {h:"The core problem", p:"By the second visit it was clear: the learner could read a clock, but the gap between things — recess to math, math to lunch — was where every meltdown lived. Standard timetables did not help. Phone-based reminders were not his to carry."},
+            {h:"What worked", p:"The 90-second pre-warning. The wristband does the warning. The class teacher does nothing different. That separation is the whole product.", split:"Outcome / observation graphic"},
+            {h:"What didn't", p:"The caregiver-teacher handoff. Two adults editing the same schedule sounded simple. Edits collided when the teacher updated mid-day and Mum had not seen it. Cohort 2027 should start here."}
+          ],
+          stack:["ESP32-C3","BLE","React Native","SQLite","3D-printed shell","Silicone strap"]
+        },
+        sawa: {
+          label:"Group 02 · Cohort 2026", name:"Sawa", ink:true,
+          blurb:"Gentle prompts, on the wrist. One voice across dashboard, phone, watch, and laptop: Tunaweka watoto sawa — we keep things right.",
+          blocks:[
+            {h:"The core problem", p:"The team was paired with a 20-year-old non-verbal challenger living at home with his mother. He communicates in gesture and routine. What he was missing was a quiet, predictable structure to the day that did not depend on someone being in the room."},
+            {h:"What worked", p:"One voice, four surfaces. The bilingual, observational tone — “things are going well today”, “Vizuri sana!” — made the system feel like one product, not four.", split:"Dashboard / phone / watch visual"},
+            {h:"What didn't · honest", p:"The smartwatch would not stay on. The challenger took the watch off within an hour, every day. The routine now runs on the phone, not the wrist. This is a useful finding, not a failure to hide."}
+          ],
+          stack:["React Native","Next.js dashboard","Wear OS","Supabase","Fraunces","Plus Jakarta Sans","Lucide"]
+        }
+      };
+
+      var left = document.getElementById("caseLeft");
+      var label = document.getElementById("caseLabel");
+      var name = document.getElementById("caseName");
+      var blurb = document.getElementById("caseBlurb");
+      var right = document.getElementById("caseRight");
+      var tabs = document.querySelectorAll(".case-tab");
+      var caseContainer = document.querySelector(".case");
+      var indicator = document.getElementById("caseTabIndicator");
+
+      function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+
+      function render(key){
+        var c = CASES[key];
+        
+        // Phase 1: Fade out
+        caseContainer.classList.add("is-switching");
+
+        // Phase 2: Update content after fade-out duration (250ms)
+        setTimeout(function() {
+          if (!left) return; // Guard against rapid navigation
+          left.classList.toggle("ink", c.ink);
+          label.textContent = c.label;
+          name.textContent = c.name;
+          blurb.textContent = c.blurb;
+
+          var html = c.blocks.map(function(b){
+            if(b.split){
+              return '<article class="case-block split"><div><h4>'+esc(b.h)+'</h4><p>'+esc(b.p)+'</p></div><div class="placeholder">'+esc(b.split)+'</div></article>';
+            }
+            return '<article class="case-block"><h4>'+esc(b.h)+'</h4><p>'+esc(b.p)+'</p></article>';
+          }).join("");
+          html += '<article class="case-block"><h4>Build stack</h4><div class="tech">'+
+            c.stack.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join("")+'</div></article>';
+          right.innerHTML = html;
+
+          tabs.forEach(function(t){ 
+            var isActive = t.dataset.case === key;
+            t.setAttribute("aria-pressed", String(isActive)); 
+            
+            if (isActive && indicator) {
+              indicator.style.width = t.offsetWidth + 'px';
+              indicator.style.transform = 'translateX(' + t.offsetLeft + 'px)';
+            }
+          });
+
+          // Phase 3: Fade in
+          requestAnimationFrame(function() {
+            caseContainer.classList.remove("is-switching");
+          });
+        }, 600);
+      }
+
+      tabs.forEach(function(t){ t.addEventListener("click", function(){ render(t.dataset.case); }); });
+
+      // deep-link: groups.html#sawa selects the Sawa case too
+      var hash = (location.hash||"").replace("#","");
+      render(CASES[hash] ? hash : "timekeeper");
+    })();
+    </script>
   </main>
 
   <div id="site-footer"></div>
   <script src="site.js"></script>
-  <script>
-  (function(){
-    var CASES = {
-      timekeeper: {
-        label:"Group 01 · Cohort 2026", name:"TimeKeeper", ink:false,
-        blurb:"A school day, made visible. The product says one thing at a time, with a quiet vibration ninety seconds before each transition. It is deliberately not a smartphone.",
-        blocks:[
-          {h:"The core problem", p:"By the second visit it was clear: the learner could read a clock, but the gap between things — recess to math, math to lunch — was where every meltdown lived. Standard timetables did not help. Phone-based reminders were not his to carry."},
-          {h:"What worked", p:"The 90-second pre-warning. The wristband does the warning. The class teacher does nothing different. That separation is the whole product.", split:"Outcome / observation graphic"},
-          {h:"What didn't", p:"The caregiver-teacher handoff. Two adults editing the same schedule sounded simple. Edits collided when the teacher updated mid-day and Mum had not seen it. Cohort 2027 should start here."}
-        ],
-        stack:["ESP32-C3","BLE","React Native","SQLite","3D-printed shell","Silicone strap"]
-      },
-      sawa: {
-        label:"Group 02 · Cohort 2026", name:"Sawa", ink:true,
-        blurb:"Gentle prompts, on the wrist. One voice across dashboard, phone, watch, and laptop: Tunaweka watoto sawa — we keep things right.",
-        blocks:[
-          {h:"The core problem", p:"The team was paired with a 20-year-old non-verbal challenger living at home with his mother. He communicates in gesture and routine. What he was missing was a quiet, predictable structure to the day that did not depend on someone being in the room."},
-          {h:"What worked", p:"One voice, four surfaces. The bilingual, observational tone — “things are going well today”, “Vizuri sana!” — made the system feel like one product, not four.", split:"Dashboard / phone / watch visual"},
-          {h:"What didn't · honest", p:"The smartwatch would not stay on. The challenger took the watch off within an hour, every day. The routine now runs on the phone, not the wrist. This is a useful finding, not a failure to hide."}
-        ],
-        stack:["React Native","Next.js dashboard","Wear OS","Supabase","Fraunces","Plus Jakarta Sans","Lucide"]
-      }
-    };
-
-    var left = document.getElementById("caseLeft");
-    var label = document.getElementById("caseLabel");
-    var name = document.getElementById("caseName");
-    var blurb = document.getElementById("caseBlurb");
-    var right = document.getElementById("caseRight");
-    var tabs = document.querySelectorAll(".case-tab");
-
-    function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
-
-    function render(key){
-      var c = CASES[key];
-      left.classList.toggle("ink", c.ink);
-      label.textContent = c.label;
-      name.textContent = c.name;
-      blurb.textContent = c.blurb;
-
-      var html = c.blocks.map(function(b){
-        if(b.split){
-          return '<article class="case-block split"><div><h4>'+esc(b.h)+'</h4><p>'+esc(b.p)+'</p></div><div class="placeholder">'+esc(b.split)+'</div></article>';
-        }
-        return '<article class="case-block"><h4>'+esc(b.h)+'</h4><p>'+esc(b.p)+'</p></article>';
-      }).join("");
-      html += '<article class="case-block"><h4>Build stack</h4><div class="tech">'+
-        c.stack.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join("")+'</div></article>';
-      right.innerHTML = html;
-
-      tabs.forEach(function(t){ t.setAttribute("aria-pressed", String(t.dataset.case===key)); });
-    }
-
-    tabs.forEach(function(t){ t.addEventListener("click", function(){ render(t.dataset.case); }); });
-
-    // deep-link: groups.html#sawa selects the Sawa case too
-    var hash = (location.hash||"").replace("#","");
-    render(CASES[hash] ? hash : "timekeeper");
-  })();
-  </script>
 </body>
 </html>
