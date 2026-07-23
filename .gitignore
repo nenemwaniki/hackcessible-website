@@ -2,3 +2,7 @@
 node_modules/
 *.log
 .vercel
+.superpowers/
+Design/plans/
+.gemini/
+.vscode/
