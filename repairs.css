@@ -1,0 +1,48 @@
+/* Free page scrolling; smooth behavior remains for intentional in-page navigation. */
+html {
+  scroll-snap-type: none;
+}
+
+.door {
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.door-cohorts {
+  background: #f2dfbd;
+  color: #23251f;
+}
+
+.door-people {
+  background: var(--coral);
+  color: #23251f;
+}
+
+.door-people:focus-visible {
+  outline-color: #23251f;
+}
+
+.door-interest {
+  background: var(--yellow);
+  color: #10131a;
+}
+
+.door-cohorts p,
+.door-people p,
+.door-interest p {
+  color: #35372f;
+}
+
+.moments img {
+  object-fit: contain;
+  background: var(--panel);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .door {
+    transition: none;
+  }
+
+  .door:hover {
+    transform: none;
+  }
+}
