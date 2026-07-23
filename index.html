@@ -8,15 +8,25 @@
   <script>(function(){try{var t=localStorage.getItem('hk-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body id="top">
+<body id="top" class="grain">
+  <!-- PRELOADER -->
+  <div class="preloader" id="preloader" role="status" aria-label="Loading">
+    <div class="preloader-glow"></div>
+    <div class="preloader-mark" id="preloaderMark">H</div>
+    <div class="preloader-count" id="preloaderCount">0</div>
+    <div class="preloader-label">LOADING</div>
+  </div>
+
   <div id="site-nav"></div>
 
   <main id="main">
     <!-- HERO — stripped back to one big statement + a few numbers -->
-    <section class="hero">
+    <section class="hero full-page">
+      <div class="glow-bg glow-lime"></div>
+      <div class="glow-bg glow-green"></div>
       <div class="wrap">
         <span class="eyebrow">The model · Cohort 2026 · Nairobi, Kenya</span>
-        <h1>Built with people, not for them.</h1>
+        <h1 class="kinetic-text">Built with people, not for them.</h1>
         <p class="hero-sub">Medicine and engineering students, twelve weeks, two Kenyan challengers and their families. A clinical-engineering programme at CIME, Aga Khan University.</p>
         <div class="hero-actions">
           <a class="btn lime" href="groups.html">Read both groups</a>
@@ -24,20 +34,21 @@
         </div>
 
         <div class="stat-band" aria-label="Cohort highlights">
-          <div class="stat"><strong>2</strong><span>Project teams — TimeKeeper &amp; Sawa</span></div>
-          <div class="stat"><strong>12</strong><span>Weeks from brief to handover</span></div>
-          <div class="stat"><strong>2</strong><span>Challengers + families co-designed throughout</span></div>
+          <div class="stat"><strong class="counter-num" data-target="2">0</strong><span>Project teams — TimeKeeper & Sawa</span></div>
+          <div class="stat"><strong class="counter-num" data-target="12">0</strong><span>Weeks from brief to handover</span></div>
+          <div class="stat"><strong class="counter-num" data-target="2">0</strong><span>Challengers + families co-designed throughout</span></div>
         </div>
       </div>
     </section>
 
     <!-- GROUP CARDS — both teams, front and centre on the landing page -->
-    <section class="section tight">
+    <section class="section tight full-page">
+      <div class="glow-bg glow-blue"></div>
       <div class="wrap">
         <div class="home-groups">
           <a class="home-group time" href="groups.html#timekeeper">
             <div class="home-group-photo">
-              <img src="images/Group%201%20portrait.html.JPG" alt="Group 01 — the TimeKeeper team" loading="lazy" />
+              <img src="images/Group%201%20portrait.html.JPG" alt="Group 01 — the TimeKeeper team" loading="lazy" width="600" height="375" />
             </div>
             <div class="home-group-body">
               <span class="home-group-eyebrow">Group 01 · TimeKeeper</span>
@@ -49,7 +60,7 @@
 
           <a class="home-group sawa" href="groups.html#sawa">
             <div class="home-group-photo">
-              <img src="images/Group%202%20portrait.JPG" alt="Group 02 — the Sawa team" loading="lazy" />
+              <img src="images/Group%202%20portrait.JPG" alt="Group 02 — the Sawa team" loading="lazy" width="600" height="375" />
             </div>
             <div class="home-group-body">
               <span class="home-group-eyebrow">Group 02 · Sawa</span>
@@ -64,8 +75,48 @@
 
     <div class="marquee" aria-hidden="true"><div>Assess before you assign · Caregivers are co-designers · Put a clinician in the design room · Real-world beats clinical elegance · Assess before you assign · Caregivers are co-designers · </div></div>
 
+    <!-- STICKY COLLISION SECTION — scroll-driven reveal -->
+    <section class="collision-section" aria-label="The Hackcessible approach" id="collisionSection">
+      <div class="collision-sticky">
+        <div class="collision-ring" id="collisionRing"></div>
+        <div class="collision-flash" id="collisionFlash"></div>
+        <div class="collision-sparks" id="collisionSparks">
+          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- 10 clip-path fragments for the shatter effect (positioned full-viewport) -->
+        <div class="collision-fragments" id="collisionFragments" aria-hidden="true">
+          <div class="collision-frag" id="frag0"></div>
+          <div class="collision-frag" id="frag1"></div>
+          <div class="collision-frag" id="frag2"></div>
+          <div class="collision-frag" id="frag3"></div>
+          <div class="collision-frag" id="frag4"></div>
+          <div class="collision-frag" id="frag5"></div>
+          <div class="collision-frag" id="frag6"></div>
+          <div class="collision-frag" id="frag7"></div>
+          <div class="collision-frag" id="frag8"></div>
+          <div class="collision-frag" id="frag9"></div>
+        </div>
+
+        <div class="collision-text-wrap">
+          <h2 class="collision-heading">
+            <span class="part part-l" id="collisionPartL">Assess,</span>
+            <span class="part part-r" id="collisionPartR">then build.</span>
+          </h2>
+          <p class="collision-sub" id="collisionSub">( The brief comes after the visit. )</p>
+        </div>
+
+        <div class="collision-prompt" id="collisionPrompt">
+          <span>Keep scrolling</span>
+          <span class="arrow-d"></span>
+        </div>
+      </div>
+    </section>
+
     <!-- VISUAL TILES — the homepage is a set of doors into the detail pages -->
-    <section class="section">
+    <section class="section full-page">
+      <div class="glow-bg glow-orange"></div>
       <div class="wrap">
         <div class="tile-grid">
           <a class="feature-tile lime" href="groups.html#timekeeper">
