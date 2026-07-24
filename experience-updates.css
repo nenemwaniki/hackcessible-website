@@ -1,0 +1,26 @@
+/* Focused interaction and layout updates for the 2026 cohort experience. */
+.what-we-do{min-height:92svh;display:grid;align-items:center}
+.what-we-do .intro-grid{grid-template-columns:1fr;align-items:center}
+.what-we-do h2{font-size:clamp(3.25rem,7.2vw,7.4rem);line-height:.91;letter-spacing:-.075em;max-width:none;margin-bottom:clamp(2rem,4vw,4.5rem)}
+.what-we-do .lead{font-size:clamp(1.2rem,1.65vw,1.7rem);max-width:48rem}
+.what-we-do p:not(.kicker){max-width:48rem}
+.word-band{overflow:hidden;display:flex;white-space:nowrap}
+.word-band-track{display:flex;flex:0 0 auto;min-width:max-content;animation:word-loop 26s linear infinite}
+.word-band-track span{display:inline-flex;align-items:center}
+@keyframes word-loop{to{transform:translateX(-100%)}}
+.door-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:1139.0625px;margin-inline:auto}
+.door{min-height:372.609375px}
+.door-cohorts{grid-column:1 / -1;min-height:339.453125px}
+.door-people,.door-interest{min-height:372.609375px}
+.page-head{padding:clamp(1.6rem,4vw,3.25rem) 0 clamp(3rem,6vw,5.25rem)}
+.case-switch{position:sticky;top:5.75rem;z-index:8;display:inline-flex;gap:6px;padding:6px;margin-bottom:clamp(2.5rem,5vw,5rem);border:1px solid #ffffff88;border-radius:999px;background:var(--blue)}
+.case-switch button{position:relative;z-index:1;border:0}
+.case-switch button[aria-pressed=true]{background:transparent;color:#10131a}
+.case-switch-indicator{display:block;position:absolute;top:6px;bottom:6px;left:6px;border-radius:999px;background:#fff;pointer-events:none;transition:transform .3s cubic-bezier(.4,0,.2,1),width .3s cubic-bezier(.4,0,.2,1)}
+.case-panel aside{position:static}
+.project-card{min-height:0;aspect-ratio:16/9}
+.moments{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:start}
+.moments figure{align-self:start}
+.project-card em{display:none}
+@media (max-width:760px){.what-we-do{min-height:auto;padding-block:clamp(5rem,14vw,7rem)}.what-we-do .intro-grid{grid-template-columns:1fr}.what-we-do h2{font-size:clamp(3rem,14vw,5rem)}.door-grid{grid-template-columns:1fr;max-width:none}.door-cohorts{grid-column:auto;min-height:330px}.door-people,.door-interest{min-height:330px}.case-switch{top:4.75rem}.case-panel aside{position:static}.moments{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.word-band-track{animation:none}}
