@@ -101,8 +101,14 @@ img.lz.ready{opacity:1}
 .cohort-pill:hover,.btn:hover{transform:translateY(-2px)}
 .cohort-pill span{transition:transform .3s cubic-bezier(.16,1,.3,1)}
 .cohort-pill:hover span{transform:translate(3px,-3px)}
-.person-card{transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.person-card:hover{transform:translateY(-6px)}
+/* Carousel: the card you rest on grows and lifts above its neighbours. */
+.person-card{transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s ease}
+.person-card img{transition:filter .45s ease}
+.person-card:hover,.person-card:focus-visible{z-index:3;transform:scale(1.11);box-shadow:0 28px 60px rgba(16,19,26,.34)}
+.person-card:hover img,.person-card:focus-visible img{filter:grayscale(0)}
+/* The "Hover to read" hint has served its purpose once you are on the card. */
+.person-card small{transition:opacity .3s ease}
+.person-card:hover small,.person-card:focus-visible small{opacity:0}
 .foot a{position:relative;width:fit-content}
 .foot a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:0 50%;transition:transform .3s cubic-bezier(.16,1,.3,1)}
 .foot a:hover::after{transform:scaleX(1)}
