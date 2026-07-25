@@ -98,7 +98,7 @@ var people=[
 {n:"Munene Mwaniki",r:"Sawa student lead. He helped connect the team’s software and device work into one prototype system.",i:"images/site/munene-mwaniki.webp"}
 ];
 function cards(hidden){
-return people.map(function(p,i){return '<button class="person-card" type="button" data-i="'+i+'"'+(hidden?' aria-hidden="true" tabindex="-1"':'')+'><img src="'+encodeURI(p.i)+'" alt="" width="480" height="560" loading="lazy"><span><strong>'+p.n+'</strong><small>Hover to read →</small></span></button>'}).join("");
+return people.map(function(p,i){return '<button class="person-card" type="button" data-i="'+i+'"'+(hidden?' aria-hidden="true" tabindex="-1"':'')+'><img src="'+encodeURI(p.i)+'" alt="" width="480" height="560" loading="lazy"><span><strong>'+p.n+'</strong></span></button>'}).join("");
 }
 if(!track.children.length){
 track.innerHTML='<div class="people-set">'+cards(false)+'</div><div class="people-set" aria-hidden="true">'+cards(true)+'</div>';
