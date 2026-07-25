@@ -1,6 +1,9 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Contact — Hackcessible</title><meta name="description" content="Sponsor Hackcessible or join the student interest list.">
-<script>try{if(localStorage.getItem("hk-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script><link rel="stylesheet" href="styles.css"></head>
+<script>try{if(localStorage.getItem("hk-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script><link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="experience-updates.css">
+  <link rel="stylesheet" href="enhancements.css"></head>
 <body id="top"><div id="site-nav"></div><main id="main">
 <section class="page-head wrap reveal"><p class="kicker">Contact</p><h1>Two ways in.<br>One inbox.</h1><p>Support a future cohort, or tell us you would like to hear about student opportunities.</p></section>
 <section class="section contact-section"><div class="wrap">
@@ -27,4 +30,4 @@
 (function(){var buttons=document.querySelectorAll(".contact-switch button"),panels={sponsor:document.getElementById("sponsor"),interest:document.getElementById("interest")},panelWrap=document.querySelector(".contact-panels"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;function show(mode){if(!panels.sponsor||!panels.interest)return;var apply=function(){Object.keys(panels).forEach(function(k){panels[k].hidden=(k!==mode)});buttons.forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.mode===mode))});if(history.replaceState&&location.hash!=="#"+mode)history.replaceState(null,"","#"+mode);requestAnimationFrame(function(){panelWrap.classList.remove("is-switching")})};if(reduce){apply();return}panelWrap.classList.add("is-switching");setTimeout(apply,280)}buttons.forEach(function(b){b.addEventListener("click",function(){show(b.dataset.mode)})});var hash=(location.hash||"").replace("#","");show(panels[hash]?hash:"sponsor")})();
 document.getElementById("interestForm").addEventListener("submit",function(e){e.preventDefault();var f=new FormData(e.currentTarget),lines=["Hello Hackcessible team,","","Please add me to the student interest list.","","Name: "+f.get("name"),"Email: "+f.get("email"),"Discipline: "+f.get("discipline"),"Institution: "+f.get("institution"),"Interest: "+f.get("message")];location.href="mailto:nbi.cime@aku.edu?subject="+encodeURIComponent("Hackcessible student interest list")+"&body="+encodeURIComponent(lines.join("\n"))});
 </script>
-</div></div></section></main><div id="site-footer"></div><script src="site.js"></script></body></html>
+</div></div></section></main><div id="site-footer"></div><script src="site.js"></script><script src="enhancements.js"></script></body></html>

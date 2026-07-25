@@ -32,19 +32,35 @@
 .case-panel aside{position:sticky;top:9.75rem;align-self:start}
 /* Project cards fit the 4:3 aspect ratio matching moments cards, with 24px rounded corners */
 .project-card{min-height:0;aspect-ratio:4/3;border-radius:24px;overflow:hidden;background:#10131a}
+.project-card picture{display:block;position:absolute;inset:0;width:100%;height:100%}
 .project-card img{width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.85);transition:transform .5s cubic-bezier(.16,1,.3,1),filter .4s ease}
+/* Per-photo framing: keep every person inside the crop at every width. */
+.project-card.time img{object-position:50% 50%}
+.project-card.sawa img{object-position:48% 50%}
 .project-card:hover img{transform:scale(1.03);filter:saturate(1)}
 /* View TimeKeeper / View Sawa text is hidden by default, visible only on hover */
-.project-card strong{opacity:0;transform:translateY(10px);transition:opacity .3s cubic-bezier(.16,1,.3,1),transform .35s cubic-bezier(.16,1,.3,1)}
-.project-card:hover strong,.project-card:focus-visible strong,.project-card[aria-pressed=true]:hover strong{opacity:1;transform:translateY(0)}
+/* Collapse the hidden CTA so the "Group 01" label still sits on the card floor. */
+.project-card strong{display:block;max-height:0;overflow:hidden;opacity:0;transform:translateY(10px);transition:max-height .4s cubic-bezier(.16,1,.3,1),opacity .3s cubic-bezier(.16,1,.3,1),transform .35s cubic-bezier(.16,1,.3,1)}
+.project-card:hover strong,.project-card:focus-visible strong,.project-card[aria-pressed=true]:hover strong{max-height:2.4em;opacity:1;transform:translateY(0)}
 .project-card em{display:none}
-/* Moments: fixed 581 x 435.75 (4:3) cards with 24px rounded edges */
-.moments{grid-template-columns:repeat(2,minmax(0,581px));justify-content:center;align-items:start;gap:20px}
+/* Moments: fluid 4:3 cards capped at 581px wide, 24px rounded edges.
+   The box must stay 4:3 at every width — a fixed pixel height beats aspect-ratio
+   and silently squares off the crop once the column drops below its cap. */
+.moments{grid-template-columns:repeat(2,minmax(0,1fr));max-width:1182px;margin-inline:auto;justify-content:center;align-items:start;gap:20px}
 .moments figure{align-self:start;margin:0;max-width:581px;width:100%}
-.moments img{width:100%;max-width:581px;height:435.75px;aspect-ratio:4/3;object-fit:cover;border-radius:24px}
+.moments picture{display:block;width:100%}
+.moments img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:var(--focus,50% 50%);border-radius:24px}
 
 
 @media (max-width:760px){.what-we-do{min-height:auto;padding-block:clamp(5rem,14vw,7rem)}.what-we-do .intro-grid{grid-template-columns:1fr}.what-we-do h2{font-size:clamp(3rem,14vw,5rem)}.door-grid{grid-template-columns:1fr;max-width:none}.door-cohorts{grid-column:auto;min-height:330px}.door-people,.door-interest{min-height:330px}.case-switch{top:4.75rem}.case-panel aside{position:static}.moments{grid-template-columns:1fr}}
+/* Programme institutions: one optical size for every mark at every breakpoint.
+   Capping height alone let the M5 lockup (padding baked into the bitmap) render
+   about a third the visual weight of the wordmarks, and differently per width. */
+.marks>div{height:clamp(96px,9vw,120px);padding:clamp(14px,1.6vw,22px);background:#fff;overflow:hidden}
+.marks img{max-height:clamp(44px,4.2vw,58px);max-width:100%;width:auto;height:auto;object-fit:contain}
+.marks .m5-mark{background:#fff}
+@media (max-width:760px){.marks{gap:16px}}
+
 /* People: Sheffield crest + hover popover */
 .inspiration{display:flex;gap:22px;align-items:center}
 .uos-crest{flex:0 0 auto;width:88px;height:88px}
@@ -59,3 +75,13 @@
 @media (max-width:760px){.inspiration{flex-direction:column;align-items:flex-start;gap:14px}}
 @media (pointer:coarse){.person-pop{display:none}}
 @media (prefers-reduced-motion:reduce){.word-band-track{animation:none}.person-pop{transition:opacity .2s ease}}
+
+/* Hero. A full-height hero on a phone is portrait, but the cohort photo is 3:2,
+   so `cover` scales it by height and shows a ~13% vertical sliver of the frame.
+   Shortening the hero on small screens keeps the group readable; the scroll cue
+   is dropped there because it collides with the CTA. */
+.home-hero img{object-position:50% 42%}
+@media (max-width:760px){
+  .home-hero{min-height:66svh}
+  .hero-cue{display:none}
+}

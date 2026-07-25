@@ -1,0 +1,117 @@
+/* Hackcessible — experience enhancements (additive; loads after styles.css) */
+
+/* ---------- brand mark ---------- */
+.brand{gap:11px}
+.brand-mark{display:block;width:34px;height:34px;flex:0 0 auto}
+.brand-mark svg{width:100%;height:100%;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.brand:hover .brand-mark svg{transform:rotate(72deg)}
+.brand svg.brand-word{width:148px;height:32px}
+@media(max-width:760px){.brand svg.brand-word{width:120px}.brand-mark{width:28px;height:28px}}
+
+/* ---------- scroll progress ---------- */
+.scroll-progress{position:fixed;left:0;right:0;top:0;z-index:60;height:3px;pointer-events:none;background:linear-gradient(90deg,var(--blue),var(--coral) 55%,var(--yellow));transform:scaleX(0);transform-origin:0 50%;opacity:0;transition:opacity .3s ease}
+.scroll-progress.on{opacity:1}
+
+/* ---------- nav: sliding pill indicator ---------- */
+@media(min-width:761px){
+  .nav-links{isolation:isolate}
+  .nav-ind{position:absolute;z-index:-1;left:0;top:0;height:44px;border-radius:999px;background:color-mix(in srgb,var(--ink) 10%,transparent);opacity:0;transform:translateX(0);transition:transform .42s cubic-bezier(.16,1,.3,1),width .42s cubic-bezier(.16,1,.3,1),opacity .25s ease,background .25s ease;pointer-events:none}
+  .nav-links.ind-on .nav-ind{opacity:1}
+  .nav-link:hover{background:transparent}
+  .nav-link{transition:color .2s ease,opacity .2s ease}
+}
+
+/* ---------- hero: parallax + scroll cue ---------- */
+.home-hero img{will-change:transform}
+.hero-cue{position:absolute;z-index:2;right:clamp(20px,4vw,46px);bottom:clamp(30px,6vw,54px);display:flex;align-items:center;gap:12px;color:#fff;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;opacity:.85}
+.hero-cue i{display:block;width:1px;height:54px;background:linear-gradient(#fff0,#fff);position:relative;overflow:hidden}
+.hero-cue i::after{content:"";position:absolute;left:-1px;width:3px;height:14px;border-radius:2px;background:var(--yellow);animation:cue 2.2s cubic-bezier(.6,0,.4,1) infinite}
+@keyframes cue{0%{transform:translateY(-16px);opacity:0}30%{opacity:1}100%{transform:translateY(54px);opacity:0}}
+.hero-cue span{writing-mode:vertical-rl}
+
+/* ---------- cursor spotlight on cards ---------- */
+.door,.project-card{position:relative;overflow:hidden}
+.door::before,.project-card::before{content:"";position:absolute;z-index:0;inset:-1px;pointer-events:none;opacity:0;transition:opacity .35s ease;background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.28),transparent 62%)}
+.door:hover::before,.project-card:hover::before{opacity:1}
+.door>*{position:relative;z-index:1}
+.door{transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .25s ease,box-shadow .35s ease}
+.door:hover{box-shadow:0 26px 60px rgba(16,19,26,.18)}
+
+/* ---------- moments: hover + lightbox ---------- */
+.moments figure{position:relative;cursor:zoom-in}
+.moments img{transition:transform .6s cubic-bezier(.16,1,.3,1),filter .4s ease}
+.moments figure:hover img{transform:scale(1.02)}
+.moments figure::after{content:"View";position:absolute;top:14px;right:14px;padding:7px 13px;border-radius:999px;background:rgba(16,19,26,.72);color:#fff;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:0;transform:translateY(-6px);transition:opacity .28s ease,transform .28s ease;backdrop-filter:blur(6px)}
+.moments figure:hover::after,.moments figure:focus-within::after{opacity:1;transform:none}
+
+.lightbox{position:fixed;inset:0;z-index:120;display:grid;grid-template-rows:1fr auto;place-items:center;padding:clamp(14px,3vw,34px);background:rgba(8,10,16,.86);backdrop-filter:blur(14px) saturate(140%);opacity:0;pointer-events:none;transition:opacity .32s ease}
+.lightbox.open{opacity:1;pointer-events:auto}
+.lightbox-stage{position:relative;display:grid;place-items:center;width:100%;height:100%;min-height:0}
+.lightbox img{max-width:min(1180px,100%);max-height:100%;width:auto;border-radius:20px;box-shadow:0 40px 90px rgba(0,0,0,.55);transform:scale(.965);opacity:0;transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .35s ease}
+.lightbox.open img{transform:none;opacity:1}
+.lightbox-bar{display:flex;align-items:center;gap:16px;padding-top:16px;color:#fff}
+.lightbox-bar p{margin:0;font-size:14px;font-weight:700}
+.lightbox-bar small{color:rgba(255,255,255,.6);font-size:12px;font-variant-numeric:tabular-nums}
+.lb-btn{display:grid;place-items:center;width:48px;height:48px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;transition:background .2s ease,transform .2s ease}
+.lb-btn:hover{background:rgba(255,255,255,.2);transform:translateY(-2px)}
+.lb-btn svg{width:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lightbox-nav{position:absolute;inset:auto 0 auto 0;display:flex;justify-content:space-between;pointer-events:none}
+.lightbox-nav .lb-btn{pointer-events:auto}
+.lightbox-close{position:absolute;top:0;right:0}
+
+/* ---------- quick jump palette (Cmd/Ctrl-K) ---------- */
+.cmdk{position:fixed;inset:0;z-index:130;display:grid;align-items:start;justify-items:center;padding:14vh 16px 0;background:rgba(8,10,16,.55);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .24s ease}
+.cmdk.open{opacity:1;pointer-events:auto}
+.cmdk-panel{width:min(560px,100%);border:1px solid var(--line);border-radius:22px;background:var(--panel);color:var(--ink);box-shadow:0 40px 90px rgba(8,10,16,.42);overflow:hidden;transform:translateY(-14px) scale(.98);transition:transform .34s cubic-bezier(.16,1,.3,1)}
+.cmdk.open .cmdk-panel{transform:none}
+.cmdk-panel input{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;color:inherit;padding:20px 22px;font-size:17px;font-weight:600;outline:none}
+.cmdk-list{list-style:none;margin:0;padding:8px;max-height:46vh;overflow:auto}
+.cmdk-list li{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;cursor:pointer;font-weight:650;font-size:15px}
+.cmdk-list li small{margin-left:auto;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.12em}
+.cmdk-list li[aria-selected=true]{background:var(--ink);color:var(--paper)}
+.cmdk-list li[aria-selected=true] small{color:rgba(255,255,255,.6)}
+[data-theme=dark] .cmdk-list li[aria-selected=true] small{color:rgba(0,0,0,.55)}
+.cmdk-list li i{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:color-mix(in srgb,var(--blue) 16%,transparent);font-style:normal;font-size:12px;font-weight:800}
+.cmdk-hint{display:flex;gap:14px;padding:11px 18px;border-top:1px solid var(--line);color:var(--muted);font-size:11px;letter-spacing:.04em}
+.cmdk-hint kbd{border:1px solid var(--line);border-radius:6px;padding:1px 6px;font:inherit;font-size:10px}
+
+/* ---------- back to top ---------- */
+.to-top{position:fixed;right:clamp(14px,3vw,28px);bottom:clamp(14px,3vw,28px);z-index:55;display:grid;place-items:center;width:52px;height:52px;border:1px solid var(--glass-border);border-radius:999px;background:var(--glass-bg-scrolled);color:var(--ink);box-shadow:var(--glass-shadow);-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);cursor:pointer;opacity:0;transform:translateY(16px) scale(.9);pointer-events:none;transition:opacity .3s ease,transform .4s cubic-bezier(.16,1,.3,1),background .3s ease}
+.to-top.on{opacity:1;transform:none;pointer-events:auto}
+.to-top:hover{transform:translateY(-3px)}
+.to-top svg{width:20px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.to-top::after{content:"";position:absolute;inset:-5px;border-radius:inherit;border:2px solid transparent;border-top-color:var(--coral);opacity:.9;transform:rotate(calc(var(--sp,0) * 360deg));transition:transform .1s linear}
+
+/* ---------- toast ---------- */
+.toast{position:fixed;left:50%;bottom:34px;z-index:140;display:flex;align-items:center;gap:12px;padding:14px 20px;border-radius:999px;background:var(--ink);color:var(--paper);font-size:14px;font-weight:700;box-shadow:0 20px 50px rgba(8,10,16,.35);transform:translate(-50%,26px);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .45s cubic-bezier(.16,1,.3,1)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast svg{width:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- lazy image fade-in ---------- */
+img.lz{opacity:0;transition:opacity .6s ease}
+img.lz.ready{opacity:1}
+
+/* ---------- theme cross-fade (View Transitions) ---------- */
+::view-transition-old(root){animation:none}
+::view-transition-new(root){animation:hk-theme-in .62s cubic-bezier(.2,.8,.2,1)}
+@keyframes hk-theme-in{from{clip-path:circle(0% at var(--vt-x,88%) var(--vt-y,3%))}to{clip-path:circle(148% at var(--vt-x,88%) var(--vt-y,3%))}}
+
+/* ---------- misc polish ---------- */
+.cohort-pill,.btn{transition:background .25s ease,color .25s ease,transform .3s cubic-bezier(.16,1,.3,1)}
+.cohort-pill:hover,.btn:hover{transform:translateY(-2px)}
+.cohort-pill span{transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.cohort-pill:hover span{transform:translate(3px,-3px)}
+.person-card{transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.person-card:hover{transform:translateY(-6px)}
+.foot a{position:relative;width:fit-content}
+.foot a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:0 50%;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.foot a:hover::after{transform:scaleX(1)}
+.tech span{transition:background .25s ease,color .25s ease}
+.tech span:hover{background:#fff;color:var(--blue)}
+
+@media(prefers-reduced-motion:reduce){
+  .hero-cue i::after{animation:none}
+  .brand-mark svg,.moments img,.door,.person-card,.cohort-pill,.btn{transition:none!important}
+  ::view-transition-new(root){animation:none}
+  .lightbox img{transition:opacity .2s ease}
+}

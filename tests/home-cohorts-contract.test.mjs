@@ -35,9 +35,16 @@ test('Cohort 2026 pins both the TimeKeeper/Sawa pill and the left case header wh
   assert.match(styles, /\.case-switch button\{[^}]*font-weight:800/);
   // Left header now pinned too (only the right-hand copy scrolls).
   assert.match(styles, /\.case-panel aside\{position:sticky/);
-  // Moments cards resized to 581 x 435.75 (4:3) with rounded edges.
-  assert.match(styles, /\.moments\{[^}]*repeat\(2,minmax\(0,581px\)\)/);
+  // Moments cards: fluid two-up capped at 581px each (1182px row), 4:3, rounded edges.
+  assert.match(styles, /\.moments\{[^}]*repeat\(2,minmax\(0,1fr\)\)[^}]*max-width:1182px/);
+  assert.match(styles, /\.moments figure\{[^}]*max-width:581px/);
   assert.match(styles, /\.moments img\{[^}]*border-radius:24px/);
+  // A fixed pixel height would beat aspect-ratio and square off the crop as the
+  // column shrinks — that was the "photos not centred" bug. Keep it height:auto.
+  assert.match(styles, /\.moments img\{[^}]*height:auto[^}]*aspect-ratio:4\/3/);
+  assert.doesNotMatch(styles, /\.moments img\{[^}]*height:435\.75px/);
+  // Per-photo framing hook.
+  assert.match(styles, /\.moments img\{[^}]*object-position:var\(--focus/);
 });
 
 test('Contact adopts the reference sponsor/interest pill toggle', async () => {
