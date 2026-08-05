@@ -2,11 +2,38 @@
 
 /* ---------- brand mark ---------- */
 .brand{gap:11px}
-.brand-mark{display:block;width:34px;height:34px;flex:0 0 auto}
-.brand-mark svg{width:100%;height:100%;transition:transform .7s cubic-bezier(.16,1,.3,1)}
-.brand:hover .brand-mark svg{transform:rotate(72deg)}
+.brand-mark{display:grid;place-items:center;width:38px;height:38px;flex:0 0 auto;padding:4px;border-radius:11px;background:#fff;box-shadow:inset 0 0 0 1px #10131a1f}
+[data-theme=dark] .brand-mark{background:#232c65;box-shadow:inset 0 0 0 1px #ffffff24}
+.brand-mark img{display:block;width:100%;height:100%;object-fit:contain;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.brand:hover .brand-mark img{transform:rotate(72deg)}
 .brand svg.brand-word{width:148px;height:32px}
-@media(max-width:760px){.brand svg.brand-word{width:120px}.brand-mark{width:28px;height:28px}}
+@media(max-width:760px){.brand svg.brand-word{width:120px}.brand-mark{width:32px;height:32px;padding:3px}}
+
+/* One identity from the first frame: the supplied 2026 mark replaces the legacy intro glyph. */
+.intro-brand{display:flex;align-items:center;gap:clamp(16px,2.4vw,30px);font-size:clamp(38px,8vw,96px);font-weight:850;letter-spacing:-.075em}
+.intro-brand span{display:grid;place-items:center;width:clamp(64px,10vw,118px);aspect-ratio:1;padding:clamp(7px,1vw,12px);border-radius:24%;background:#fff;box-shadow:0 18px 55px #10131a24}
+.intro-brand img{display:block;width:100%;height:100%;object-fit:contain}
+[data-theme=dark] .intro-brand span{background:#232c65;box-shadow:inset 0 0 0 1px #ffffff24,0 18px 55px #10131a55}
+
+/* Four principles, each given its own place instead of a repeating marquee. */
+.word-band{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,4vw,64px);padding-inline:clamp(20px,5vw,72px);white-space:normal!important;overflow:visible!important;text-align:center}
+.word-band>span{display:block}
+@media(max-width:760px){.word-band{grid-template-columns:repeat(2,minmax(0,1fr));font-size:clamp(32px,10vw,48px);gap:18px 24px;padding-block:28px}}
+
+/* Retire the obstructed ambience frame from the public moments selection. */
+.moments figure:has(img[src*="moment-aku-ambience"]){display:none}
+
+/* Preserve the complete cohort instead of cropping people at the image edges. */
+.home-hero picture{background:#151922}
+.home-hero picture img{object-fit:contain;object-position:center}
+@media(max-width:760px){
+  .home-hero{min-height:76vh;background:#151922}
+  .home-hero picture{inset:0 0 auto;height:calc((100vw - 20px)*.6667)}
+  .home-hero picture img{object-fit:contain}
+  .home-hero .hero-shade{background:linear-gradient(to bottom,transparent 22%,#151922 58%,#10131a 100%)}
+  .home-hero .hero-copy{left:28px;right:22px;bottom:34px}
+  .home-hero .hero-copy h1{font-size:clamp(48px,14vw,66px)}
+}
 
 /* ---------- scroll progress ---------- */
 .scroll-progress{position:fixed;left:0;right:0;top:0;z-index:60;height:3px;pointer-events:none;background:linear-gradient(90deg,var(--blue),var(--coral) 55%,var(--yellow));transform:scaleX(0);transform-origin:0 50%;opacity:0;transition:opacity .3s ease}
@@ -47,17 +74,18 @@
 .lightbox{position:fixed;inset:0;z-index:120;display:grid;grid-template-rows:1fr auto;place-items:center;padding:clamp(14px,3vw,34px);background:rgba(8,10,16,.86);backdrop-filter:blur(14px) saturate(140%);opacity:0;pointer-events:none;transition:opacity .32s ease}
 .lightbox.open{opacity:1;pointer-events:auto}
 .lightbox-stage{position:relative;display:grid;place-items:center;width:100%;height:100%;min-height:0}
-.lightbox img{max-width:min(1180px,100%);max-height:100%;width:auto;border-radius:20px;box-shadow:0 40px 90px rgba(0,0,0,.55);transform:scale(.965);opacity:0;transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .35s ease}
+.lightbox-media{position:relative;display:grid;place-items:center;max-width:min(1180px,100%);max-height:100%}
+.lightbox img{display:block;max-width:100%;max-height:calc(100vh - 110px);width:auto;border-radius:20px;box-shadow:0 40px 90px rgba(0,0,0,.55);transform:scale(.965);opacity:0;transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .35s ease}
 .lightbox.open img{transform:none;opacity:1}
 .lightbox-bar{display:flex;align-items:center;gap:16px;padding-top:16px;color:#fff}
 .lightbox-bar p{margin:0;font-size:14px;font-weight:700}
 .lightbox-bar small{color:rgba(255,255,255,.6);font-size:12px;font-variant-numeric:tabular-nums}
-.lb-btn{display:grid;place-items:center;width:48px;height:48px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;transition:background .2s ease,transform .2s ease}
-.lb-btn:hover{background:rgba(255,255,255,.2);transform:translateY(-2px)}
+.lb-btn{display:grid;place-items:center;width:48px;height:48px;border:1px solid rgba(255,255,255,.48);border-radius:999px;background:rgba(8,10,16,.68);color:#fff;cursor:pointer;transition:background .2s ease,transform .2s ease}
+.lb-btn:hover{background:rgba(8,10,16,.88);transform:translateY(-2px)}
 .lb-btn svg{width:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.lightbox-nav{position:absolute;inset:auto 0 auto 0;display:flex;justify-content:space-between;pointer-events:none}
+.lightbox-nav{position:absolute;inset:50% 14px auto;display:flex;justify-content:space-between;pointer-events:none;transform:translateY(-50%)}
 .lightbox-nav .lb-btn{pointer-events:auto}
-.lightbox-close{position:absolute;top:0;right:0}
+.lightbox-close{position:absolute;top:14px;right:14px}
 
 /* ---------- quick jump palette (Cmd/Ctrl-K) ---------- */
 .cmdk{position:fixed;inset:0;z-index:130;display:grid;align-items:start;justify-items:center;padding:14vh 16px 0;background:rgba(8,10,16,.55);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .24s ease}
@@ -127,7 +155,26 @@ img.lz.ready{opacity:1}
 
 @media(prefers-reduced-motion:reduce){
   .hero-cue i::after{animation:none}
-  .brand-mark svg,.moments img,.door,.person-card,.cohort-pill,.btn{transition:none!important}
+  .brand-mark img,.moments img,.door,.person-card,.cohort-pill,.btn{transition:none!important}
   ::view-transition-new(root){animation:none}
   .lightbox img{transition:opacity .2s ease}
+}
+
+/* ---------- August 2026 accessibility and polish pass ---------- */
+:root{--paper:#f2f3f7;--muted:#5f6673;--line:#c9ced8;--panel:#e9edf3;--nav:rgba(242,243,247,.88);--glass-bg:rgba(242,243,247,.64);--glass-bg-scrolled:rgba(242,243,247,.86);--glass-specular:rgba(255,255,255,.5)}
+.what-we-do h2,.page-head h1{letter-spacing:-.04em}
+.foot a{text-decoration:none}
+.marks>div{background:#eef1f5}
+.m5-institution{grid-template-rows:1fr auto;gap:7px;padding-block:14px!important}
+.m5-institution img{min-height:0}
+.m5-institution strong{font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.contact-card .form-grid input,.contact-card .form-grid textarea{background:#f4f5f7}
+@media(max-width:760px){
+  .word-band{grid-template-columns:1fr;font-size:clamp(36px,12vw,48px);gap:10px;padding-block:24px}
+  .door{min-height:300px;padding:28px}
+  .door h3{font-size:clamp(32px,10vw,42px)}
+  .door p{font-size:17px}
+  .door b{font-size:16px}
+  .lightbox-nav{inset-inline:8px}
+  .lightbox-close{top:8px;right:8px}
 }

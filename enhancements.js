@@ -26,14 +26,14 @@
   toast.setAttribute("aria-live", "polite");
 
   var lightbox = el("div", "lightbox",
-    '<div class="lightbox-stage">' +
+    '<div class="lightbox-stage"><div class="lightbox-media">' +
       '<img alt="">' +
       '<div class="lightbox-nav">' +
         '<button class="lb-btn" type="button" data-lb="prev" aria-label="Previous image"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>' +
         '<button class="lb-btn" type="button" data-lb="next" aria-label="Next image"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>' +
       '</div>' +
       '<button class="lb-btn lightbox-close" type="button" data-lb="close" aria-label="Close viewer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
-    '</div>' +
+    '</div></div>' +
     '<div class="lightbox-bar"><p></p><small></small></div>');
   lightbox.setAttribute("role", "dialog");
   lightbox.setAttribute("aria-modal", "true");
@@ -230,7 +230,7 @@
   var actions = [
     { t: "Home", s: "Page", i: "H", go: "index.html" },
     { t: "Cohort 2026", s: "Page", i: "C", go: "cohorts.html" },
-    { t: "Organizers", s: "Page", i: "O", go: "people.html" },
+    { t: "People", s: "Page", i: "P", go: "people.html" },
     { t: "Contact", s: "Page", i: "@", go: "contact.html" },
     { t: "Sponsor a cohort", s: "Action", i: "★", go: "contact.html#sponsor" },
     { t: "Join the student interest list", s: "Action", i: "＋", go: "contact.html#interest" },

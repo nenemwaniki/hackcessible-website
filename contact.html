@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Contact — Hackcessible</title><meta name="description" content="Sponsor Hackcessible or join the student interest list.">
-<script>try{if(localStorage.getItem("hk-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script><link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Contact — Hackcessible</title><meta name="description" content="Sponsor Hackcessible or join the student interest list."><meta name="theme-color" content="#f6f7fb"><link rel="canonical" href="https://hackcessible.vercel.app/contact"><meta property="og:type" content="website"><meta property="og:site_name" content="Hackcessible"><meta property="og:title" content="Contact — Hackcessible"><meta property="og:description" content="Sponsor Hackcessible or join the student interest list."><meta property="og:url" content="https://hackcessible.vercel.app/contact"><meta property="og:image" content="https://hackcessible.vercel.app/images/site/og.jpg"><meta property="og:image:alt" content="Hackcessible Cohort 2026 students and organisers together"><meta name="twitter:card" content="summary_large_image">
+<script>try{if(localStorage.getItem("hk-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script><link rel="icon" type="image/svg+xml" href="favicon.svg?v=20260803b"><link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="experience-updates.css">
   <link rel="stylesheet" href="enhancements.css"></head>
@@ -17,11 +17,11 @@
   <aside><p class="kicker">Student interest</p><h2>Every discipline. Every institution.</h2><p>Hackcessible benefits from different ways of thinking. Students from any discipline and institution can join the interest list for future opportunities. This is an interest list, not an application or offer of a place.</p></aside>
   <div class="contact-action">
     <form id="interestForm" class="form-grid">
-      <label>Name<input name="name" required autocomplete="name"></label>
-      <label>Email<input name="email" type="email" required autocomplete="email"></label>
-      <label>Discipline<input name="discipline" required placeholder="What do you study?"></label>
-      <label>Institution<input name="institution" required placeholder="Where do you study?"></label>
-      <label class="full">What interests you?<textarea name="message" rows="3"></textarea></label>
+      <label for="interest-name">Name<input id="interest-name" name="name" required autocomplete="name"></label>
+      <label for="interest-email">Email<input id="interest-email" name="email" type="email" required autocomplete="email"></label>
+      <label for="interest-discipline">Discipline<input id="interest-discipline" name="discipline" required placeholder="What do you study?"></label>
+      <label for="interest-institution">Institution<input id="interest-institution" name="institution" required placeholder="Where do you study?"></label>
+      <label class="full" for="interest-message">What interests you?<textarea id="interest-message" name="message" rows="3"></textarea></label>
       <button class="btn dark" type="submit">Email my interest →</button>
     </form>
   </div>

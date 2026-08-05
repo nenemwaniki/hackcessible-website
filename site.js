@@ -1,6 +1,6 @@
 (function(){
 var root=document.documentElement,path=location.pathname.split("/").pop()||"index";if(path.indexOf(".html")<0)path+=".html";if(path==="groups.html")path="cohorts.html";
-var mark='<span class="brand-mark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><g fill="none" stroke-linecap="round" stroke-width="50"><g transform="rotate(0 320 320)"><path d="M301.9 239.3A62 62 0 1 1 377.1 204.2" stroke="#F99C38"></path><circle cx="267.1" cy="48.1" r="37" fill="#F99C38" stroke="none"></circle></g><g transform="rotate(72 320 320)"><path d="M301.9 239.3A62 62 0 1 1 377.1 204.2" stroke="#C8112E"></path><circle cx="267.1" cy="48.1" r="37" fill="#C8112E" stroke="none"></circle></g><g transform="rotate(144 320 320)"><path d="M301.9 239.3A62 62 0 1 1 377.1 204.2" stroke="#1F8B12"></path><circle cx="267.1" cy="48.1" r="37" fill="#1F8B12" stroke="none"></circle></g><g transform="rotate(216 320 320)"><path d="M301.9 239.3A62 62 0 1 1 377.1 204.2" stroke="#0A2060"></path><circle cx="267.1" cy="48.1" r="37" fill="#0A2060" stroke="none"></circle></g><g transform="rotate(288 320 320)"><path d="M301.9 239.3A62 62 0 1 1 377.1 204.2" stroke="#2E2E2E"></path><circle cx="267.1" cy="48.1" r="37" fill="#2E2E2E" stroke="none"></circle></g></g><g stroke-width="6"><path d="M320 302 320 260" stroke="#7B2FF7"></path><path d="M332.7 307.3 362.4 277.6" stroke="#FFD600"></path><path d="M338 320 380 320" stroke="#00C8D7"></path><path d="M332.7 332.7 362.4 362.4" stroke="#F26B21"></path><path d="M320 338 320 380" stroke="#00C217"></path><path d="M307.3 332.7 277.6 362.4" stroke="#D6006E"></path><path d="M302 320 260 320" stroke="#0080FF"></path><path d="M307.3 307.3 277.6 277.6" stroke="#FF00B4"></path></g><circle cx="320" cy="320" r="12" fill="#fff"></circle></svg></span>';
+var mark='<span class="brand-mark" aria-hidden="true"><img src="logo.svg" alt="" width="175" height="180"></span>';
 var logo=mark+'<svg class="brand-word" viewBox="0 0 266 54" role="img" aria-label="Hackcessible"><text x="0" y="39" font-family="Jakarta,Arial" font-size="35" font-weight="800" letter-spacing="-2">Hack</text><path d="M82 37V24c0-12 10-20 22-20s22 8 22 20v13" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="82" cy="39" r="4" fill="currentColor"/><circle cx="126" cy="39" r="4" fill="currentColor"/><text x="132" y="39" font-family="Jakarta,Arial" font-size="35" font-weight="800" letter-spacing="-2">cessible</text></svg>';
 var nav=[["index.html","Home"],["cohorts.html","Cohorts"],["people.html","People"],["contact.html","Contact"]],links=nav.map(function(n){return '<a class="nav-link" href="'+n[0]+'"'+(n[0]===path?' aria-current="page"':'')+'>'+n[1]+'</a>'}).join("");
 var mount=document.getElementById("site-nav");if(mount)mount.innerHTML='<a class="skip" href="#main">Skip to content</a><div class="nav-shell"><nav class="nav" aria-label="Primary"><a class="brand" href="index.html">'+logo+'</a><div class="nav-links" id="navLinks">'+links+'</div><div class="nav-actions"><button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2m20 0h-2M5 5l2 2m10 10 2 2m0-14-2 2M7 17l-2 2"/></svg><svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 14a9 9 0 1 1-11-11 7 7 0 0 0 11 11z"/></svg></button><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></nav></div><div class="nav-spacer"></div>';
@@ -85,7 +85,7 @@ location.href="mailto:nbi.cime@aku.edu?subject="+encodeURIComponent("Hackcessibl
 }
 initContactToggle();
 
-/* People Organizers Carousel & Hover Popover */
+/* People carousel & hover popover */
 function initPeopleCarousel(){
 var track=document.getElementById("peopleTrack"),pop=document.getElementById("personPop");
 if(!track)return;
@@ -94,6 +94,8 @@ var people=[
 {n:"Dr Raana",r:"Clinical consultant. She brought clinical perspective into team discussions and prototype review.",i:"images/site/dr-raana.webp"},
 {n:"Dr Susan Wamithi",r:"Clinical consultant. She supported the cohort’s understanding of people, care contexts and responsible design.",i:"images/site/dr-susan.webp"},
 {n:"Austin Muchiri",r:"Project organizer at CIME. He coordinated the people, spaces and practical details that kept the cohort moving.",i:"images/site/austin-muchiri.webp"},
+{n:"Kayuyu Mwaura",r:"Software developer and Hackcessible mentor. She supported teams as they translated ideas into working software.",i:"images/site/kayuyu-mwaura.webp"},
+{n:"Stacy Awinja",r:"Biomedical engineer and Hackcessible mentor. She supported teams across clinical context, engineering decisions and prototyping.",i:"images/site/stacy-awinja.webp"},
 {n:"Melissa Kimari",r:"TimeKeeper student lead. She helped guide the team from observation through prototype learning.",i:"images/site/melissa-kimari.webp"},
 {n:"Munene Mwaniki",r:"Sawa student lead. He helped connect the team’s software and device work into one prototype system.",i:"images/site/munene-mwaniki.webp"}
 ];
@@ -122,7 +124,7 @@ addEventListener("resize",close);
 initPeopleCarousel();
 
 /* Route transition veil overlay with header overdrop */
-var titles={"index.html":"Hackcessible","cohorts.html":"Cohort 2026","groups.html":"Cohort 2026","people.html":"Organizers","contact.html":"Two ways in."};
+var titles={"index.html":"Hackcessible","cohorts.html":"Cohort 2026","groups.html":"Cohort 2026","people.html":"People","contact.html":"Two ways in."};
 var veil=document.createElement("div");veil.className="route-veil";veil.innerHTML='<span class="route-title"></span>';document.body.appendChild(veil);var veilTitle=veil.firstChild;
 
 /* SPA-Lite Navigation: fetch + DOM swap with CSS transitions & route veil overdrop */
