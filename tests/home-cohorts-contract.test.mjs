@@ -71,7 +71,10 @@ test('People carousel reveals roles on hover and shows the Sheffield crest', asy
   assert.doesNotMatch(people, /showModal\(\)/);
   // The popover follows the card actually under the pointer, not the last one
   // a pointer event reported: the track keeps sliding after it is paused.
-  assert.match(js, /elementFromPoint/);
+  // The popover must name the card the pointer entered, not whoever has since
+  // slid under a stationary cursor — re-reading the hit test each frame put every
+  // card one place out of step with the label the reader sees.
+  assert.doesNotMatch(js, /elementFromPoint/);
   assert.match(js, /requestAnimationFrame\(follow\)/);
   // Every person on the page has an entry.
   assert.match(js, /Jaki Mathaga/);

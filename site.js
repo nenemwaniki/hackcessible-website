@@ -108,7 +108,7 @@ track.innerHTML='<div class="people-set">'+cards(false)+'</div><div class="peopl
 }
 if(!pop)return;
 var img=document.getElementById("popImage"),name=document.getElementById("popName"),role=document.getElementById("popRole");
-var current=null,downBefore=null,px=0,py=0,raf=0;
+var current=null,downBefore=null,raf=0;
 function fill(card){var p=people[+card.dataset.i];if(!p)return;if(img){img.src=encodeURI(p.i);img.alt=p.n}if(name)name.textContent=p.n;if(role)role.textContent=p.r}
 /* Sit the card's popover against the card: centred on it, above where there is
    room under the floating nav, below otherwise, and always inside the viewport. */
@@ -122,17 +122,13 @@ pop.classList.toggle("below",below);
 pop.style.top=top+"px"}
 function show(card){fill(card);track.classList.add("paused");pop.classList.add("show");pop.setAttribute("aria-hidden","false");current=card;place(card)}
 function close(){if(raf){cancelAnimationFrame(raf);raf=0}track.classList.remove("paused");pop.classList.remove("show");pop.setAttribute("aria-hidden","true");current=null}
-function cardAt(x,y){var el=document.elementFromPoint(x,y);return el&&el.closest?el.closest(".person-card"):null}
 /* The track runs on the compositor, so it keeps sliding for a beat after the
-   main thread pauses it, and it never fires another pointerover once the cursor
-   stops moving. On pointer events alone the popover ends up naming whoever used
-   to be under the cursor. While it is open, re-read the card under the pointer
-   every frame and follow it. */
+   main thread pauses it. Follow the card the pointer entered — do NOT re-read
+   whatever has since slid under the cursor. Chrome recomputes :hover only on
+   real input, so the card the reader sees enlarged stays the one they entered;
+   re-reading the hit test each frame named the next card along instead.
+   Only the position is refreshed, so the popover stays glued while it settles. */
 function follow(){if(!current){raf=0;return}
-var c=cardAt(px,py);
-/* A null reading means the pointer is in the gap between two cards mid-slide.
-   Hold the current card rather than closing — leaving the track does that. */
-if(c&&c!==current){fill(c);current=c}
 place(current);
 raf=requestAnimationFrame(follow)}
 
@@ -141,10 +137,8 @@ track.dataset.bound="true";
 /* Branch on the pointer that is actually being used, not on a media query: a
    touchscreen laptop reports both, and a mouse-only branch leaves phones with
    no way in at all. A mouse hovers; touch and pen tap. */
-track.addEventListener("pointermove",function(e){px=e.clientX;py=e.clientY});
 track.addEventListener("pointerover",function(e){if(e.pointerType&&e.pointerType!=="mouse")return;
 var b=e.target.closest(".person-card");if(!b)return;
-px=e.clientX;py=e.clientY;
 if(b!==current)show(b);
 if(!raf)raf=requestAnimationFrame(follow)});
 track.addEventListener("pointerleave",function(e){if(e.pointerType&&e.pointerType!=="mouse")return;close()});
