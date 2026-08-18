@@ -178,3 +178,41 @@ img.lz.ready{opacity:1}
   .lightbox-nav{inset-inline:8px}
   .lightbox-close{top:8px;right:8px}
 }
+
+/* ---------- 18 Aug 2026 fixes ---------- */
+
+/* The August polish pass above retunes the palette on a bare `:root`. `:root`
+   and `[data-theme=dark]` carry the same specificity, and this file loads last,
+   so it was also overwriting the dark palette: `--panel`, `--paper`, `--line`
+   and the glass tokens stayed light while the text flipped light, leaving the
+   Sheffield card, the sponsor/interest toggle and the active nav pill unreadable
+   in dark mode. Restate the dark values here so the dark theme wins again. */
+[data-theme=dark]{--paper:#0b0f19;--ink:#f4f6fc;--muted:#9ba5c0;--line:rgba(255,255,255,.14);--panel:#141b2d;--nav:rgba(14,19,31,.78);--glass-bg:rgba(20,27,45,.6);--glass-bg-scrolled:rgba(11,15,25,.88);--glass-border:rgba(58,98,255,.32);--glass-shadow:0 14px 44px rgba(0,0,0,.68),0 0 20px rgba(58,98,255,.16);--glass-specular:rgba(120,158,255,.28)}
+/* Logo plates stay light in both themes — the marks are dark-on-white artwork. */
+[data-theme=dark] .marks>div{background:#eef1f5;color:#111}
+/* The Sheffield crest is dark artwork; give it the same light plate as the
+   marks so it stays readable once the inspiration card goes navy. */
+[data-theme=dark] .uos-crest{padding:5px;border-radius:12px;background:#eef1f5}
+
+/* Programme institutions: three marks now that the CDIE plate is gone. */
+.marks{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:760px){.marks{grid-template-columns:1fr 1fr}}
+
+/* Mobile hero: the photo was letterboxed at the top of a 76vh box with the
+   title pinned to the floor, which opened a tall empty band between them on
+   anything taller than a small phone. Let the hero size to its own content
+   instead — photo, then copy directly beneath it. */
+@media(max-width:760px){
+  .home-hero{min-height:0;display:flex;flex-direction:column;background:#10131a}
+  .home-hero picture{position:static;inset:auto;width:100%;height:auto}
+  .home-hero img{position:static;width:100%;height:auto;object-fit:contain;transform:none!important}
+  .home-hero .hero-shade{display:none}
+  .home-hero .hero-copy{position:static;left:auto;right:auto;bottom:auto;padding:26px 24px 32px}
+  .home-hero .hero-copy h1{margin:10px 0 26px}
+  .home-hero .hero-cue{display:none}
+}
+
+/* People popover: readable and tap-driven on touch, where there is no hover. */
+@media(pointer:coarse){
+  .person-pop{display:grid;width:min(320px,calc(100vw - 28px))}
+}
