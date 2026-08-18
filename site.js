@@ -94,6 +94,7 @@ var people=[
 {n:"Dr Raana",r:"Clinical consultant. She brought clinical perspective into team discussions and prototype review.",i:"images/site/dr-raana.webp"},
 {n:"Dr Susan Wamithi",r:"Clinical consultant. She supported the cohort’s understanding of people, care contexts and responsible design.",i:"images/site/dr-susan.webp"},
 {n:"Austin Muchiri",r:"Project organizer at CIME. He coordinated the people, spaces and practical details that kept the cohort moving.",i:"images/site/austin-muchiri.webp"},
+{n:"Jaki Mathaga",r:"Parent and Hackcessible mentor. She brought a parent’s perspective into the room and mentored teams as they tested their ideas.",i:"images/site/jaki-mathaga.webp"},
 {n:"Kayuyu Mwaura",r:"Software developer and Hackcessible mentor. She supported teams as they translated ideas into working software.",i:"images/site/kayuyu-mwaura.webp"},
 {n:"Stacy Awinja",r:"Biomedical engineer and Hackcessible mentor. She supported teams across clinical context, engineering decisions and prototyping.",i:"images/site/stacy-awinja.webp"},
 {n:"Melissa Kimari",r:"TimeKeeper student lead. She helped guide the team from observation through prototype learning.",i:"images/site/melissa-kimari.webp"},
@@ -107,17 +108,64 @@ track.innerHTML='<div class="people-set">'+cards(false)+'</div><div class="peopl
 }
 if(!pop)return;
 var img=document.getElementById("popImage"),name=document.getElementById("popName"),role=document.getElementById("popRole");
-function place(card){var r=card.getBoundingClientRect();pop.style.left=(r.left+r.width/2)+"px";var ph=pop.offsetHeight,top=r.top-ph-16;if(top<88){pop.classList.add("below");top=r.bottom+16}else{pop.classList.remove("below")}pop.style.top=top+"px"}
-function open(card){var p=people[+card.dataset.i];if(!p)return;if(img){img.src=encodeURI(p.i);img.alt=p.n}if(name)name.textContent=p.n;if(role)role.textContent=p.r;track.classList.add("paused");pop.classList.add("show");pop.setAttribute("aria-hidden","false");place(card)}
-function close(){track.classList.remove("paused");pop.classList.remove("show");pop.setAttribute("aria-hidden","true")}
+var current=null,downBefore=null,px=0,py=0,raf=0;
+function fill(card){var p=people[+card.dataset.i];if(!p)return;if(img){img.src=encodeURI(p.i);img.alt=p.n}if(name)name.textContent=p.n;if(role)role.textContent=p.r}
+/* Sit the card's popover against the card: centred on it, above where there is
+   room under the floating nav, below otherwise, and always inside the viewport. */
+function place(card){var r=card.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight,gap=14,edge=12,navFloor=96;
+var cx=Math.min(Math.max(r.left+r.width/2,edge+pw/2),innerWidth-edge-pw/2);
+pop.style.left=cx+"px";
+var below=false,top=r.top-ph-gap;
+if(top<navFloor){below=true;top=r.bottom+gap}
+if(below&&top+ph>innerHeight-edge)top=Math.min(Math.max(navFloor,r.top+gap),Math.max(navFloor,innerHeight-ph-edge));
+pop.classList.toggle("below",below);
+pop.style.top=top+"px"}
+function show(card){fill(card);track.classList.add("paused");pop.classList.add("show");pop.setAttribute("aria-hidden","false");current=card;place(card)}
+function close(){if(raf){cancelAnimationFrame(raf);raf=0}track.classList.remove("paused");pop.classList.remove("show");pop.setAttribute("aria-hidden","true");current=null}
+function cardAt(x,y){var el=document.elementFromPoint(x,y);return el&&el.closest?el.closest(".person-card"):null}
+/* The track runs on the compositor, so it keeps sliding for a beat after the
+   main thread pauses it, and it never fires another pointerover once the cursor
+   stops moving. On pointer events alone the popover ends up naming whoever used
+   to be under the cursor. While it is open, re-read the card under the pointer
+   every frame and follow it. */
+function follow(){if(!current){raf=0;return}
+var c=cardAt(px,py);
+/* A null reading means the pointer is in the gap between two cards mid-slide.
+   Hold the current card rather than closing — leaving the track does that. */
+if(c&&c!==current){fill(c);current=c}
+place(current);
+raf=requestAnimationFrame(follow)}
 
 if(!track.dataset.bound){
 track.dataset.bound="true";
-track.addEventListener("pointerover",function(e){var b=e.target.closest(".person-card");if(b)open(b)});
-track.addEventListener("pointerout",function(e){var b=e.target.closest(".person-card");if(b&&!b.contains(e.relatedTarget))close()});
-track.addEventListener("focusin",function(e){var b=e.target.closest(".person-card");if(b)open(b)});
+/* Branch on the pointer that is actually being used, not on a media query: a
+   touchscreen laptop reports both, and a mouse-only branch leaves phones with
+   no way in at all. A mouse hovers; touch and pen tap. */
+track.addEventListener("pointermove",function(e){px=e.clientX;py=e.clientY});
+track.addEventListener("pointerover",function(e){if(e.pointerType&&e.pointerType!=="mouse")return;
+var b=e.target.closest(".person-card");if(!b)return;
+px=e.clientX;py=e.clientY;
+if(b!==current)show(b);
+if(!raf)raf=requestAnimationFrame(follow)});
+track.addEventListener("pointerleave",function(e){if(e.pointerType&&e.pointerType!=="mouse")return;close()});
+/* Tapping a card also focuses it, and focusin opens the popover — so a naive
+   toggle would read its own focus-open as "already open" and shut it again,
+   making the first tap look dead. Compare against the state before the tap. */
+track.addEventListener("pointerdown",function(e){if(e.pointerType!=="mouse")downBefore=current});
+track.addEventListener("click",function(e){if(e.pointerType==="mouse")return;
+var b=e.target.closest(".person-card");if(!b)return;
+e.preventDefault();
+if(downBefore===b)close();else show(b);
+downBefore=null});
+document.addEventListener("click",function(e){if(current&&!e.target.closest(".person-card")&&!e.target.closest(".person-pop"))close()});
+track.addEventListener("focusin",function(e){var b=e.target.closest(".person-card");if(b&&b!==current)show(b)});
 track.addEventListener("focusout",function(e){var b=e.target.closest(".person-card");if(b&&!b.contains(e.relatedTarget))close()});
-addEventListener("scroll",function(){if(pop.classList.contains("show"))close()},{passive:true});
+/* Keep the popover glued while the page moves — tapping a card focuses it,
+   which can scroll it into view, and closing on that made the first tap look
+   like it did nothing. Dismiss only once the card itself has left. */
+addEventListener("scroll",function(){if(!current)return;
+var r=current.getBoundingClientRect();
+if(r.bottom<80||r.top>innerHeight-40)close();else place(current)},{passive:true});
 addEventListener("resize",close);
 }
 }

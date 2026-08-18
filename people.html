@@ -7,30 +7,4 @@
 <section class="page-head wrap reveal"><p class="kicker">People</p><h1>People behind the work.</h1><p>Programme leads, mentors and student leads who brought clinical context, engineering and lived experience into the same room.</p></section>
 <section class="people-stage" aria-label="Hackcessible people carousel"><div class="people-track" id="peopleTrack"></div></section>
 <section class="section marks-section"><div class="wrap reveal"><p class="kicker">Programme institutions</p><h2>Made together in Nairobi.</h2><div class="marks" aria-label="Programme institutions"><div><img src="images/site/aku.png" alt="Aga Khan University" width="2000" height="975"></div><div><img src="images/site/ku.png" alt="Kenyatta University" width="398" height="98"></div><div class="m5-institution"><img src="images/site/m5.webp" alt="M5 Engineering" width="1091" height="487" loading="lazy"><strong>M5 Engineering</strong></div></div><div class="inspiration"><img class="uos-crest" src="images/uos-crest.svg" alt="University of Sheffield crest" width="88" height="88" loading="lazy"><div><span>Model inspiration</span><strong>University of Sheffield</strong><p>Hackcessible Nairobi draws inspiration from Sheffield’s model.</p></div></div></div></section>
-</main><div id="personPop" class="person-pop" role="tooltip" aria-hidden="true"><img id="popImage" alt="" width="84" height="100"><div><p class="kicker">People</p><h3 id="popName"></h3><p id="popRole"></p></div></div><script>(function(){var people=[{n:"Dr Michael Moneypenny",r:"CIME programme lead. He helped convene the clinical learning environment and guide the cohort’s collaboration.",i:"images/site/dr-michael.webp"},{n:"Dr Raana",r:"Clinical consultant. She brought clinical perspective into team discussions and prototype review.",i:"images/site/dr-raana.webp"},{n:"Dr Susan Wamithi",r:"Clinical consultant. She supported the cohort’s understanding of people, care contexts and responsible design.",i:"images/site/dr-susan.webp"},{n:"Austin Muchiri",r:"Project organizer at CIME. He coordinated the people, spaces and practical details that kept the cohort moving.",i:"images/site/austin-muchiri.webp"},{n:"Jaki Mathaga",r:"Parent and Hackcessible mentor. She brought a parent’s perspective into the room and mentored teams as they tested their ideas.",i:"images/site/jaki-mathaga.webp"},{n:"Kayuyu Mwaura",r:"Software developer and Hackcessible mentor. She supported teams as they translated ideas into working software.",i:"images/site/kayuyu-mwaura.webp"},{n:"Stacy Awinja",r:"Biomedical engineer and Hackcessible mentor. She supported teams across clinical context, engineering decisions and prototyping.",i:"images/site/stacy-awinja.webp"},{n:"Melissa Kimari",r:"TimeKeeper student lead. She helped guide the team from observation through prototype learning.",i:"images/site/melissa-kimari.webp"},{n:"Munene Mwaniki",r:"Sawa student lead. He helped connect the team’s software and device work into one prototype system.",i:"images/site/munene-mwaniki.webp"}];var track=document.getElementById("peopleTrack"),pop=document.getElementById("personPop"),img=document.getElementById("popImage"),name=document.getElementById("popName"),role=document.getElementById("popRole");function cards(hidden){return people.map(function(p,i){return '<button class="person-card" type="button" data-i="'+i+'"'+(hidden?' aria-hidden="true" tabindex="-1"':'')+'><img src="'+encodeURI(p.i)+'" alt="" width="480" height="560" loading="lazy"><span><strong>'+p.n+'</strong></span></button>'}).join("")}if(track&&!track.children.length)track.innerHTML='<div class="people-set">'+cards(false)+'</div><div class="people-set" aria-hidden="true">'+cards(true)+'</div>';
-var hoverable=matchMedia("(hover:hover) and (pointer:fine)").matches,current=null;
-function place(card){var r=card.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight,gap=14,edge=12,navFloor=96;
-var cx=Math.min(Math.max(r.left+r.width/2,edge+pw/2),innerWidth-edge-pw/2);pop.style.left=cx+"px";
-var below=false,top=r.top-ph-gap;
-if(top<navFloor){below=true;top=r.bottom+gap}
-if(below&&top+ph>innerHeight-edge)top=Math.min(Math.max(navFloor,r.top+gap),Math.max(navFloor,innerHeight-ph-edge));
-pop.classList.toggle("below",below);pop.style.top=top+"px"}
-function open(card){var p=people[+card.dataset.i];img.src=encodeURI(p.i);img.alt=p.n;name.textContent=p.n;role.textContent=p.r;track.classList.add("paused");pop.classList.add("show");pop.setAttribute("aria-hidden","false");current=card;place(card);
-/* The card scales up over .45s on hover, so its box is still growing when the
-   popover is first placed. Re-place it as the transform settles. */
-[0,140,300,480].forEach(function(t){setTimeout(function(){if(current===card)place(card)},t)})}
-function close(){track.classList.remove("paused");pop.classList.remove("show");pop.setAttribute("aria-hidden","true");current=null}
-if(track){
-if(hoverable){
-track.addEventListener("pointerover",function(e){var b=e.target.closest(".person-card");if(b)open(b)});
-track.addEventListener("pointerout",function(e){var b=e.target.closest(".person-card");if(b&&!b.contains(e.relatedTarget))close()});
-}else{
-/* No hover on touch: a tap opens the profile, a second tap or a tap away closes it. */
-track.addEventListener("click",function(e){var b=e.target.closest(".person-card");if(!b)return;e.preventDefault();if(current===b)close();else open(b)});
-document.addEventListener("click",function(e){if(current&&!e.target.closest(".person-card")&&!e.target.closest(".person-pop"))close()});
-}
-track.addEventListener("focusin",function(e){var b=e.target.closest(".person-card");if(b)open(b)});
-track.addEventListener("focusout",function(e){var b=e.target.closest(".person-card");if(b&&!b.contains(e.relatedTarget))close()});
-}
-addEventListener("scroll",function(){if(current)close()},{passive:true});
-addEventListener("resize",close)})();</script><div id="site-footer"></div><script src="site.js"></script><script src="enhancements.js"></script></body></html>
+</main><div id="personPop" class="person-pop" role="tooltip" aria-hidden="true"><img id="popImage" alt="" width="84" height="100"><div><p class="kicker">People</p><h3 id="popName"></h3><p id="popRole"></p></div></div><div id="site-footer"></div><script src="site.js"></script><script src="enhancements.js"></script></body></html>

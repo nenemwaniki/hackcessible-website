@@ -59,13 +59,22 @@ test('Contact adopts the reference sponsor/interest pill toggle', async () => {
 });
 
 test('People carousel reveals roles on hover and shows the Sheffield crest', async () => {
-  const [people, baseStyles, experienceStyles] = await Promise.all([read('people.html'), read('styles.css'), read('experience-updates.css')]);
+  const [people, js, baseStyles, experienceStyles] = await Promise.all([read('people.html'), read('site.js'), read('styles.css'), read('experience-updates.css')]);
   const styles = baseStyles + experienceStyles;
 
-  // Hover-driven popover (no click-modal dialog).
+  // Hover-driven popover (no click-modal dialog). The carousel lives once, in
+  // site.js — a second inline copy on the page drove the popover from its own
+  // stale cast list and named the wrong person.
   assert.match(people, /id="personPop"/);
-  assert.match(people, /addEventListener\("pointerover"/);
+  assert.doesNotMatch(people, /var people=\[/);
+  assert.match(js, /addEventListener\("pointerover"/);
   assert.doesNotMatch(people, /showModal\(\)/);
+  // The popover follows the card actually under the pointer, not the last one
+  // a pointer event reported: the track keeps sliding after it is paused.
+  assert.match(js, /elementFromPoint/);
+  assert.match(js, /requestAnimationFrame\(follow\)/);
+  // Every person on the page has an entry.
+  assert.match(js, /Jaki Mathaga/);
   // Crest asset used.
   assert.match(people, /images\/uos-crest\.svg/);
   assert.match(styles, /\.person-pop\.show\{opacity:1/);
