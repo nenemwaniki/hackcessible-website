@@ -1,0 +1,26 @@
+{
+  "name": "primary",
+  "version": "1.0.0",
+  "description": "A multi-page public showcase for **Hackcessible**, a clinical-engineering programme hosted by the **Centre for Innovation in Medical Education (CIME)** at **Aga Khan University (AKU)**, Nairobi. Built from the Hackcessible design system (warm brutalist-editorial: cream paper, deep forest green, electric lime, ultra-heavy Plus Jakarta Sans).",
+  "main": "enhancements.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nenemwaniki/hackcessible-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nenemwaniki/hackcessible-website/issues"
+  },
+  "homepage": "https://github.com/nenemwaniki/hackcessible-website#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
