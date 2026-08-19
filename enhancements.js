@@ -117,19 +117,6 @@
   }
   navIndicator();
 
-  /* ---------------- theme toggle: circular view transition ---------------- */
-  (function () {
-    var btn = document.querySelector(".theme-toggle");
-    if (!btn || !document.startViewTransition || reduce) return;
-    var original = btn.onclick;
-    if (!original) return;
-    btn.onclick = function (e) {
-      var r = btn.getBoundingClientRect();
-      root.style.setProperty("--vt-x", ((r.left + r.width / 2) / innerWidth * 100).toFixed(1) + "%");
-      root.style.setProperty("--vt-y", ((r.top + r.height / 2) / innerHeight * 100).toFixed(1) + "%");
-      document.startViewTransition(function () { original.call(btn, e); });
-    };
-  })();
 
   /* ---------------- cursor spotlight on cards ---------------- */
   addEventListener("pointermove", function (e) {
@@ -236,7 +223,6 @@
     { t: "Join the student interest list", s: "Action", i: "＋", go: "contact.html#interest" },
     { t: "TimeKeeper case study", s: "Case", i: "1", go: "cohorts.html#timekeeper" },
     { t: "Sawa case study", s: "Case", i: "2", go: "cohorts.html#sawa" },
-    { t: "Toggle dark mode", s: "Action", i: "◐", run: function () { var b = document.querySelector(".theme-toggle"); if (b) b.click(); } },
     { t: "Email nbi.cime@aku.edu", s: "Action", i: "✉", run: function () { location.href = "mailto:nbi.cime@aku.edu"; } }
   ];
   var shown = actions.slice();

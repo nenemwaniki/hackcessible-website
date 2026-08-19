@@ -1,11 +1,16 @@
 (function(){
 var root=document.documentElement,path=location.pathname.split("/").pop()||"index";if(path.indexOf(".html")<0)path+=".html";if(path==="groups.html")path="cohorts.html";
 var mark='<span class="brand-mark" aria-hidden="true"><img src="logo.svg" alt="" width="175" height="180"></span>';
-var logo=mark+'<svg class="brand-word" viewBox="0 0 266 54" role="img" aria-label="Hackcessible"><text x="0" y="39" font-family="Jakarta,Arial" font-size="35" font-weight="800" letter-spacing="-2">Hack</text><path d="M82 37V24c0-12 10-20 22-20s22 8 22 20v13" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="82" cy="39" r="4" fill="currentColor"/><circle cx="126" cy="39" r="4" fill="currentColor"/><text x="132" y="39" font-family="Jakarta,Arial" font-size="35" font-weight="800" letter-spacing="-2">cessible</text></svg>';
+var logo=mark+'<svg class="brand-word" viewBox="0 0 266 54" role="img" aria-label="Hackcessible"><text x="0" y="39" font-family="Jakarta,Arial" font-size="35" font-weight="800" letter-spacing="-2">Hackcessible</text></svg>';
 var nav=[["index.html","Home"],["cohorts.html","Cohorts"],["people.html","People"],["contact.html","Contact"]],links=nav.map(function(n){return '<a class="nav-link" href="'+n[0]+'"'+(n[0]===path?' aria-current="page"':'')+'>'+n[1]+'</a>'}).join("");
-var mount=document.getElementById("site-nav");if(mount)mount.innerHTML='<a class="skip" href="#main">Skip to content</a><div class="nav-shell"><nav class="nav" aria-label="Primary"><a class="brand" href="index.html">'+logo+'</a><div class="nav-links" id="navLinks">'+links+'</div><div class="nav-actions"><button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2m20 0h-2M5 5l2 2m10 10 2 2m0-14-2 2M7 17l-2 2"/></svg><svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 14a9 9 0 1 1-11-11 7 7 0 0 0 11 11z"/></svg></button><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></nav></div><div class="nav-spacer"></div>';
+var mount=document.getElementById("site-nav");if(mount)mount.innerHTML='<a class="skip" href="#main">Skip to content</a><div class="nav-shell"><nav class="nav" aria-label="Primary"><a class="brand" href="index.html">'+logo+'</a><div class="nav-links" id="navLinks">'+links+'</div><div class="nav-actions"><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></nav></div><div class="nav-spacer"></div>';
 var foot=document.getElementById("site-footer");if(foot)foot.innerHTML='<footer class="foot-wrap"><div class="wrap foot"><div><h2>Hackcessible</h2><small>Student-led assistive technology exploration in Nairobi.</small></div><div><strong>Explore</strong><a href="cohorts.html">Cohorts</a><a href="people.html">People</a><a href="contact.html">Contact</a></div><div><strong>Contact</strong><a href="mailto:nbi.cime@aku.edu">nbi.cime@aku.edu</a><small>CIME · Aga Khan University<br>Nairobi, Kenya</small></div></div></footer>';
-var theme=document.querySelector(".theme-toggle");if(theme){theme.setAttribute("aria-pressed",String(root.dataset.theme==="dark"));theme.onclick=function(){var dark=root.dataset.theme!=="dark";if(dark)root.dataset.theme="dark";else delete root.dataset.theme;theme.setAttribute("aria-pressed",String(dark));try{localStorage.setItem("hk-theme",dark?"dark":"light")}catch(e){}}}
+/* Theme follows the device. There is no in-page toggle: the OS setting is the
+   single source of truth, and a change to it re-paints the page live. */
+var darkQ=matchMedia("(prefers-color-scheme: dark)");
+function syncTheme(){if(darkQ.matches)root.dataset.theme="dark";else delete root.dataset.theme}
+syncTheme();
+if(darkQ.addEventListener)darkQ.addEventListener("change",syncTheme);else if(darkQ.addListener)darkQ.addListener(syncTheme);
 var menu=document.querySelector(".menu-toggle"),menuLinks=document.getElementById("navLinks");if(menu){menu.onclick=function(){var open=menuLinks.classList.toggle("open");menu.setAttribute("aria-expanded",String(open));menu.setAttribute("aria-label",open?"Close menu":"Open menu")};menuLinks.onclick=function(e){if(e.target.closest("a")){menuLinks.classList.remove("open");menu.setAttribute("aria-expanded","false")}}}
 var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,intro=document.getElementById("intro");if(intro){var seen=false;try{seen=sessionStorage.getItem("hk-intro")}catch(e){}if(reduce||seen)intro.remove();else{try{sessionStorage.setItem("hk-intro","1")}catch(e){}setTimeout(function(){intro.classList.add("done");setTimeout(function(){intro.remove()},650)},3000)}}
 var observer=new IntersectionObserver(function(entries){entries.forEach(function(e,i){if(e.isIntersecting){setTimeout(function(){e.target.classList.add("in")},Math.min(i*70,280));observer.unobserve(e.target)}})},{threshold:.12});document.querySelectorAll(".reveal").forEach(function(el){observer.observe(el)});
@@ -106,6 +111,16 @@ return people.map(function(p,i){return '<button class="person-card" type="button
 if(!track.children.length){
 track.innerHTML='<div class="people-set">'+cards(false)+'</div><div class="people-set" aria-hidden="true">'+cards(true)+'</div>';
 }
+/* Mobile gets a sticky stack instead of the marquee: there is no hover on a
+   phone, so a card that carries its own name and role and settles under the
+   nav as you scroll beats a strip that has to be tapped to be read. Built from
+   the same list, so there is one place to edit a person. */
+var stack=document.getElementById("peopleStack");
+if(stack&&!stack.children.length){
+stack.innerHTML=people.map(function(p,i){
+return '<li class="stack-item" style="--i:'+i+'"><article class="stack-card"><img src="'+encodeURI(p.i)+'" alt="" width="480" height="560" loading="lazy" decoding="async"><div><p class="kicker">'+(i+1)+' / '+people.length+'</p><h2>'+p.n+'</h2><p>'+p.r+'</p></div></article></li>'
+}).join("");
+}
 if(!pop)return;
 var img=document.getElementById("popImage"),name=document.getElementById("popName"),role=document.getElementById("popRole");
 var current=null,downBefore=null,raf=0;
@@ -164,6 +179,59 @@ addEventListener("resize",close);
 }
 }
 initPeopleCarousel();
+
+/* Mobile home hero: a swipeable strip of Cohort 2026 photographs.
+   Built in script, and only on a narrow viewport, so the desktop hero keeps its
+   single full-bleed image and downloads nothing extra. Native scroll-snap does
+   the swiping — no drag handlers, no rAF loop, so it stays smooth on a cheap
+   phone. */
+function initHeroCarousel(){
+var hero=document.querySelector(".home-hero");
+if(!hero||hero.dataset.carousel)return;
+if(!matchMedia("(max-width:760px)").matches)return;
+var pic=hero.querySelector("picture");if(!pic)return;
+hero.dataset.carousel="1";
+hero.classList.add("has-carousel");
+var shots=[
+["moment-hackathon-friday","Students at Hackathon Friday"],
+["moment-group1-discussion","TimeKeeper team in discussion"],
+["moment-group2-discussion","Sawa team in discussion"],
+["moment-halfway","A student presenting prototype progress at the halfway review"],
+["moment-aku-ambience","Students working together at Aga Khan University"]
+];
+var track=document.createElement("div");
+track.className="hero-track";
+track.setAttribute("aria-label","Cohort 2026 photographs");
+pic.parentNode.insertBefore(track,pic);
+var first=document.createElement("div");first.className="hero-slide";first.appendChild(pic);track.appendChild(first);
+shots.forEach(function(sh){
+var sl=document.createElement("div");sl.className="hero-slide";
+sl.innerHTML='<picture><source type="image/avif" srcset="images/site/'+sh[0]+'-900.avif"><source type="image/webp" srcset="images/site/'+sh[0]+'-900.webp"><img src="images/site/'+sh[0]+'-900.webp" alt="'+sh[1]+'" loading="lazy" decoding="async"></picture>';
+track.appendChild(sl)});
+var slides=track.children,n=slides.length;
+var dots=document.createElement("div");dots.className="hero-dots";
+for(var i=0;i<n;i++){var d=document.createElement("button");d.type="button";d.className="hero-dot";d.setAttribute("aria-label","Photograph "+(i+1)+" of "+n);dots.appendChild(d)}
+track.parentNode.insertBefore(dots,track.nextSibling);
+var at=0,touched=false,timer=0,driving=0;
+function mark(){for(var i=0;i<n;i++)dots.children[i].setAttribute("aria-current",String(i===at))}
+/* A smooth programmatic scroll fires scroll events at every intermediate
+   offset. Ignore them while it is in flight, or the handler below rounds a
+   halfway position back to the slide being left and the dots fight the strip. */
+function go(i,smooth){at=(i+n)%n;clearTimeout(driving);driving=setTimeout(function(){driving=0},smooth&&!reduce?700:60);track.scrollTo({left:track.clientWidth*at,behavior:(smooth&&!reduce)?"smooth":"auto"});mark()}
+mark();
+dots.onclick=function(e){var b=e.target.closest("button");if(!b)return;touched=true;stop();go([].indexOf.call(dots.children,b),true)};
+/* Keep the dots honest when the reader swipes instead of tapping. */
+var tick=0;
+track.addEventListener("scroll",function(){if(tick||driving)return;tick=requestAnimationFrame(function(){tick=0;if(driving)return;var i=Math.round(track.scrollLeft/track.clientWidth);if(i!==at&&i>=0&&i<n){at=i;mark()}})},{passive:true});
+track.addEventListener("pointerdown",function(){touched=true;stop()});
+function stop(){if(timer){clearInterval(timer);timer=0}}
+/* Advance on its own until the reader takes over, and never under a
+   reduced-motion preference or while the tab is hidden. */
+if(!reduce){timer=setInterval(function(){if(touched||document.hidden)return;go(at+1,true)},5200)}
+addEventListener("resize",function(){go(at,false)});
+}
+initHeroCarousel();
+
 
 /* Route transition veil overlay with header overdrop */
 var titles={"index.html":"Hackcessible","cohorts.html":"Cohort 2026","groups.html":"Cohort 2026","people.html":"People","contact.html":"Two ways in."};
@@ -235,6 +303,7 @@ initWordReveal();
 initCohortToggle();
 initContactToggle();
 initPeopleCarousel();
+initHeroCarousel();
 
 /* Trigger entry transition */
 void main.offsetHeight;

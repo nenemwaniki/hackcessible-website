@@ -31,9 +31,13 @@ test('lightbox controls sit within image bounds with stronger contrast', async (
   assert.match(styles, /background:rgba\(8,10,16,\.68\)/);
 });
 
-test('People keeps Sheffield as inspiration and labels M5 Engineering', async () => {
+test('People keeps Sheffield as inspiration and names M5 Engineering', async () => {
   const people = await read('people.html');
-  assert.match(people, /<strong>M5 Engineering<\/strong>/);
+  // The M5 plate used to hold a bare "M5" glyph with the name bolted underneath
+  // as text. It now carries the real M5 Engineering lockup, which sets the name
+  // itself, so the mark names the company the way the AKU and KU marks do.
+  assert.match(people, /<img class="mark-m5" src="images\/site\/m5-engineering\.webp" alt="M5 Engineering"/);
+  assert.doesNotMatch(people, /<strong>M5 Engineering<\/strong>/);
   assert.match(people, /Model inspiration[\s\S]*University of Sheffield/);
   assert.doesNotMatch(people, /not presented as an official programme partner/);
 });
