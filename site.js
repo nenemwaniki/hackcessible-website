@@ -118,7 +118,7 @@ track.innerHTML='<div class="people-set">'+cards(false)+'</div><div class="peopl
 var stack=document.getElementById("peopleStack");
 if(stack&&!stack.children.length){
 stack.innerHTML=people.map(function(p,i){
-return '<li class="stack-item" style="--i:'+i+'"><article class="stack-card"><img src="'+encodeURI(p.i)+'" alt="" width="480" height="560" loading="lazy" decoding="async"><div><p class="kicker">'+(i+1)+' / '+people.length+'</p><h2>'+p.n+'</h2><p>'+p.r+'</p></div></article></li>'
+return '<li class="stack-item" style="--i:'+i+'"><article class="stack-card"><img src="'+encodeURI(p.i)+'" alt="" width="480" height="560" loading="lazy" decoding="async"><div><h2>'+p.n+'</h2><p>'+p.r+'</p></div></article></li>'
 }).join("");
 }
 if(!pop)return;
